@@ -1,12 +1,18 @@
 # Estado y pendientes
 
-Actualizado: 9 de noviembre de 2026.
+Actualizado: 10 de noviembre de 2026.
+
+## Revisión vigente para entrega — 10 de noviembre
+
+El artículo actual desarrolla los siete capítulos centrales, 18 referencias y anexos A–B. La fuente original, con babel español y newtx, compiló correctamente en el compilador del editor durante esta revisión. Se comprobaron los 48 marcadores del estudio y 240 hashes de archivos de etapas, sin discrepancias. Se inspeccionó la figura PNG; sigue pendiente revisar visualmente todas las páginas del PDF final. Esta comprobación sustituye el pendiente antiguo de compilar únicamente una copia con babel inglés.
+
+La revisión considera el trabajo completo y defendible para la asignatura. El usuario autorizó aplicar los ajustes y se incorporaron: ausencia de tendencia sostenida en el control, cumplimiento parcial del objetivo de repetición entre textos, recordatorio del análisis post hoc sobre 90 contextos en conclusiones y cautela sobre la dirección del sesgo de selección. El estado del arte ya describe la evaluación realizada. La versión corregida compiló correctamente en el editor. Se sincronizan `Overleaf_IMAC/` y `Overleaf_IMAC.zip` y se prepara el envío autorizado a `CarLos4475/IMAC`. No se cambiaron cifras ni se ejecutaron entrenamientos nuevos.
 
 ## Material disponible y su estado
 
 | Material | Estado comprobado |
 | --- | --- |
-| [Artículo](../Manuscrito/main.tex) | Carátula, índice, resumen, introducción de seis subapartados, borradores del marco teórico, estado del arte y metodología en español, con 18 referencias citadas; compilación exitosa el 9 de noviembre. Resultados finales y secciones posteriores pendientes; piloto documentado por separado. |
+| [Artículo](../Manuscrito/main.tex) | Artículo completo con resultados, discusión, conclusiones, 18 referencias y anexos A–B; fuente original compilada el 10 de noviembre. Revisión de redacción y maquetación final recomendada. |
 | [Capitulado entregado](01_capitulado_entregado.md) | Estructura transcrita del adjunto identificado por el usuario; no hay confirmación de aprobación del profesor. |
 | [Capitulado revisado](../Capitulado/main.tex) | Correcciones locales de coherencia, voz y apartado 7.6; compilación verificada anteriormente. |
 | [Revisión bibliográfica](../revision_estado_del_arte.md) | Nueve trabajos seleccionados; revisión inicial consultada el 13 de octubre de 2026. |
@@ -14,14 +20,14 @@ Actualizado: 9 de noviembre de 2026.
 | [Notebook piloto anterior](../Experimentos/piloto_model_collapse.ipynb) | Versión inglesa conservada como antecedente. Se interrumpió durante imports, sin entrenamiento. Sustituida operativamente por el nuevo archivo español; no continuar esta copia. |
 | [Notebook español](../Experimentos/piloto_model_collapse_es.ipynb) | Piloto ejecutado en T4: cinco ajustes completos; controles del protocolo y PyTorch pasaron. Fuente conservada sin sobrescribir con salidas. |
 | [Resultados de piloto](../Experimentos/resultados/piloto_es_2026-11-09/RESUMEN.md) | ZIP, notebook ejecutado, métricas, tiempos, captura y comprobación local archivados. Una repetición por condición y dos ciclos; no son resultados finales. |
-| [Estudio principal preparado](../Experimentos/README_PRINCIPAL_ES.md) | Notebook autónomo de 29 celdas, 48 ajustes previstos y persistencia/reanudación en Drive. Pasaron 20 controles locales y embebidos; no se montó Drive ni se ejecutó el estudio. |
+| [Fuente del estudio principal](../Experimentos/README_PRINCIPAL_ES.md) | Notebook autónomo conservado como fuente, con ejecución desactivada al distribuir; las 48 etapas se completaron en una copia en Colab y sus salidas están archivadas aparte. |
 | [Estudio principal ejecutado](../Experimentos/resultados/principal_es_2026-11-10/RESUMEN.md) | 48/48 etapas el 10 de noviembre; resultados, análisis complementario post hoc y tablas/figura incorporados en `main.tex`. |
 
 El 3 de noviembre se verificaron nuevamente Shumailov y Kazdan para la introducción y se amplió la búsqueda con fuentes de fundamentos para el marco teórico. El registro está en [05_fuentes_marco_teorico.md](05_fuentes_marco_teorico.md). Esto no constituye una revisión sistemática.
 
 La introducción actual tiene seis subapartados; el capítulo 1 del entregable proponía diez. Organización del documento se eliminó de la revisión local por indicación del usuario. La correspondencia restante es temática; queda pendiente decidir si se desea correspondencia literal de encabezados. Los objetivos redactados y el marco teórico requieren revisión del usuario.
 
-Ya existen resultados propios del **piloto** español ejecutado el 9 de noviembre. El estudio principal se completó el 10 de noviembre (48/48 etapas) y sus resultados están en [principal_es_2026-11-10/RESUMEN.md](../Experimentos/resultados/principal_es_2026-11-10/RESUMEN.md). El artículo ya incluye Resultados, Discusión y Conclusiones. Pendientes inmediatos: revisar y reescribir esos apartados en la voz del equipo, compilar `main.tex` en el editor (solo se comprobó una copia con babel inglés), revisar la figura y las tablas, decidir si se conserva la celda temporal añadida en Colab y vaciar `_to_delete/`. Las métricas léxicas y semánticas provienen de un análisis complementario post hoc declarado en el texto. Compilar no constituye inspección visual ni exportación de un PDF independiente.
+Ya existen resultados propios del **piloto** español ejecutado el 9 de noviembre. El estudio principal se completó el 10 de noviembre (48/48 etapas) y sus resultados están en [principal_es_2026-11-10/RESUMEN.md](../Experimentos/resultados/principal_es_2026-11-10/RESUMEN.md). El artículo incluye Resultados, Discusión y Conclusiones y sus ajustes de precisión ya están aplicados y compilados. Pendientes inmediatos: revisar todas las páginas del PDF final y confirmar su exportación para entrega. La limpieza de temporales y la celda adicional de Colab son mantenimiento opcional, no requisitos de la entrega. Las métricas léxicas y semánticas provienen de un análisis complementario post hoc declarado en el texto.
 
 ## Pendientes de redacción y coordinación
 
@@ -34,7 +40,7 @@ Ya existen resultados propios del **piloto** español ejecutado el 9 de noviembr
 ## Pendientes metodológicos
 
 - Hecho el 10 de noviembre: guardado, reanudación y las 48 etapas se completaron en Colab T4 (~2.8 h registradas).
-- La metodología ya está armonizada: recursos españoles del piloto, 512/128/128 ejemplos, tres proporciones, cinco ciclos, tres repeticiones y 48 ajustes desde la misma base. El usuario aceptó preparar este protocolo; no hay ejecución principal ni aprobación del profesor.
+- La metodología describe la ejecución completa: recursos españoles del piloto, 512/128/128 ejemplos, tres proporciones, cinco ciclos, tres repeticiones y 48 ajustes desde la misma base. No hay confirmación de aprobación del profesor.
 - Mantener la reserva de prueba fuera del ajuste de parámetros y conservar la misma regla de partición del piloto. Registrar sin filtrar problemas de generación y métricas ausentes.
 - Verificar reanudación con los hashes y el entorno congelado; preservar salidas, checkpoints necesarios y una sola sesión escritora.
 - El análisis implementado es descriptivo y pareado; cualquier prueba inferencial adicional requiere justificación y no debe tratar textos como réplicas independientes.

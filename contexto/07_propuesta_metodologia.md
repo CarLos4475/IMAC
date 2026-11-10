@@ -1,6 +1,10 @@
 # Propuesta operativa de metodología
 
-Actualizado: 9 de noviembre de 2026.
+Actualizado: 10 de noviembre de 2026.
+
+## Estado vigente — ejecución completa
+
+El principal se completó el 10 de noviembre: 48 etapas, tres repeticiones y cinco ciclos, con persistencia/reanudación en Colab T4. Resultados en [RESUMEN.md](../Experimentos/resultados/principal_es_2026-11-10/RESUMEN.md). La regla de longitud dejó sin métricas léxicas y semánticas a 39 etapas (75 continuaciones cortas); se declaró un análisis post hoc de 90 contextos comunes. El artículo distingue este análisis de la perplejidad original sobre 128 contextos. Se comprobaron 48 marcadores y 240 hashes sin discrepancias. El 10 de noviembre se aplicaron ajustes de prudencia al texto con autorización del usuario, sin alterar protocolo ni cifras, y se compiló la fuente original corregida en el editor. Los estados de preparación y pendientes de ejecución de las secciones siguientes son históricos y quedan sustituidos por esta ejecución; no iniciar otra corrida por inferencia de esas notas.
 
 ## Información confirmada por el usuario
 

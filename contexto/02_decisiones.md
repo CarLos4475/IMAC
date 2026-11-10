@@ -1,6 +1,10 @@
 # Decisiones y delimitaciones
 
-Actualizado: 9 de noviembre de 2026.
+Actualizado: 10 de noviembre de 2026.
+
+## Estado vigente tras la ejecución y revisión de entrega
+
+El principal está completo (48/48 etapas) y el artículo desarrolla resultados, discusión, conclusiones y anexos. Este estado sustituye los pendientes de ejecución conservados en las notas históricas siguientes. El usuario autorizó el 10 de noviembre aplicar los ajustes de precisión de la revisión, sincronizar el paquete Overleaf y subir los cambios al repositorio existente `CarLos4475/IMAC`. Se mantiene el protocolo y las cifras; la diversidad léxica y semántica se interpreta como análisis exploratorio post hoc sobre 90 contextos comunes. Compilación de la fuente original y de la versión corregida confirmadas en el editor; revisión visual de todas las páginas pendiente.
 
 ## Base de trabajo acordada
 

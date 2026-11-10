@@ -305,7 +305,7 @@ originales, la perplejidad aumentó cerca de un 29\,\% en cinco ciclos, la
 diversidad léxica disminuyó y la repetición aumentó de forma consistente en
 las tres repeticiones. Al conservar la mitad de los datos originales, la
 perplejidad aumentó menos del 5\,\% y se estabilizó, y con datos originales
-no se observó deterioro. La dispersión semántica no disminuyó en ninguna
+no se observó una tendencia sostenida de deterioro. La dispersión semántica no disminuyó en ninguna
 condición. Las métricas léxicas y semánticas se describieron mediante un
 análisis complementario, debido a una regla de longitud que dejó sin valores
 a la mayoría de las etapas. Los resultados son compatibles con una etapa
@@ -831,10 +831,9 @@ descripción experimental, en lugar de tratarse como un detalle secundario.
 
 Esta perspectiva también limita la interpretación de una puntuación de
 diversidad aislada: una salida puede contener muchas secuencias diferentes
-y aun así deteriorarse en otros aspectos. Para la investigación se propone
-documentar entradas, longitudes y muestreo, y acompañar las medidas de
-diversidad con una evaluación complementaria cuya viabilidad se determine
-al cerrar el diseño.
+y aun así deteriorarse en otros aspectos. En esta investigación se
+documentaron entradas, longitudes y muestreo, y se acompañaron las medidas
+de diversidad con la perplejidad sobre referencias originales reservadas.
 
 \subsection{Estrategias de mitigación}
 
@@ -1156,8 +1155,10 @@ el mismo número de textos. Las métricas se recalcularon con las mismas
 funciones de evaluación y, en el caso semántico, con la misma revisión del
 codificador. Este análisis se decidió después de observar la ausencia de
 métricas, por lo que se presenta como exploratorio y no como sustituto del
-criterio original. Al excluir precisamente los contextos donde aparecieron
-salidas más degradadas, es probable que subestime el deterioro.
+criterio original. Excluir los contextos donde aparecieron salidas cortas
+puede introducir un sesgo de selección y ocultar algunas manifestaciones
+del deterioro; su efecto sobre la magnitud de las diferencias entre
+condiciones no se determinó.
 
 \subsection{Perplejidad sobre referencias originales}
 
@@ -1388,8 +1389,11 @@ las continuaciones originales se reemplazaron por completo, la diversidad
 léxica disminuyó de manera progresiva a lo largo de los cinco ciclos
 (Distinct-2 bajó cerca de un 10\,\% y Distinct-3 un 5\,\%). Al conservar
 la mitad de los datos originales, los cambios fueron pequeños e
-inconsistentes, y con datos originales no se observaron cambios. La
-dispersión semántica, en cambio, no disminuyó en ninguna condición.
+inconsistentes, y con datos originales no se observó una tendencia
+sostenida de deterioro. La dispersión semántica, en cambio, no disminuyó
+en ninguna condición. Las mediciones léxicas y semánticas proceden del
+análisis exploratorio \textit{post hoc} de 90 de los 128 contextos; sus
+conclusiones se limitan a ese subconjunto común.
 
 \subsection{Respuestas a las preguntas secundarias}
 
@@ -1399,7 +1403,7 @@ dispersión semántica, en cambio, no disminuyó en ninguna condición.
     La dispersión semántica no se redujo; aumentó ligeramente en todas las
     condiciones.
     \item \textit{Proporción.} El efecto aumentó con la proporción
-    sintética: nulo con \(\alpha=0\), moderado y estable con
+    sintética: sin tendencia sostenida de deterioro con \(\alpha=0\), moderado y estable con
     \(\alpha=0.5\) y el mayor con \(\alpha=1\). Conservar la mitad de los
     datos originales redujo considerablemente el deterioro.
     \item \textit{Repetición.} Con \(\alpha=1\) la repetición media de
@@ -1419,14 +1423,16 @@ dispersión semántica, en cambio, no disminuyó en ninguna condición.
 
 \subsection{Cumplimiento de los objetivos}
 
-Se cumplieron los objetivos planteados dentro del alcance del
-experimento. Se compararon la diversidad léxica y semántica a través de
+Los objetivos planteados se cumplieron parcialmente. Se compararon la
+diversidad léxica y semántica a través de
 cinco ciclos y tres proporciones, se evaluó la repetición dentro de los
 textos y se describió el efecto conjunto de ambos factores. La
 compatibilidad con el \textit{model collapse} se examinó considerando sus
-limitaciones. El cumplimiento es descriptivo: las métricas léxicas y
-semánticas proceden de un análisis complementario y la repetición entre
-textos solo se aproximó mediante la dispersión semántica.
+limitaciones. El análisis fue descriptivo y las métricas léxicas y
+semánticas proceden de un análisis complementario \textit{post hoc}.
+El objetivo de evaluar la repetición entre respuestas quedó parcialmente
+atendido: se midió su dispersión semántica, pero esta no equivale a una
+medición directa de repetición entre textos.
 
 \subsection{Conclusión sobre la hipótesis}
 
