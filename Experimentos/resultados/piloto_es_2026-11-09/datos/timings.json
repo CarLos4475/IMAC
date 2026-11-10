@@ -1,0 +1,189 @@
+[
+  {
+    "stage": "resolve_revisions",
+    "seconds": 0.4366553979999708,
+    "status": "ok"
+  },
+  {
+    "stage": "load_tokenizer_data",
+    "seconds": 56.169398236999996,
+    "status": "ok"
+  },
+  {
+    "stage": "load_model",
+    "seconds": 11.196586898000021,
+    "status": "ok"
+  },
+  {
+    "stage": "load_embeddings",
+    "seconds": 8.029091816999994,
+    "status": "ok"
+  },
+  {
+    "stage": "reference_embeddings",
+    "seconds": 1.0933304920000069,
+    "status": "ok"
+  },
+  {
+    "stage": "fit",
+    "seconds": 10.41170258599999,
+    "status": "ok",
+    "stage_id": "M0_human"
+  },
+  {
+    "stage": "eval_generation",
+    "seconds": 13.756699846999993,
+    "status": "ok",
+    "stage_id": "M0_human"
+  },
+  {
+    "stage": "eval_perplexity",
+    "seconds": 0.6028396669999552,
+    "status": "ok",
+    "stage_id": "M0_human"
+  },
+  {
+    "stage": "eval_embeddings",
+    "seconds": 1.0113455050000084,
+    "status": "ok",
+    "stage_id": "M0_human"
+  },
+  {
+    "stage": "write_outputs",
+    "seconds": 0.0013903130000016972,
+    "status": "ok",
+    "stage_id": "M0_human"
+  },
+  {
+    "stage": "fit",
+    "seconds": 10.019933554999966,
+    "status": "ok",
+    "stage_id": "alpha_000_g1"
+  },
+  {
+    "stage": "eval_generation",
+    "seconds": 8.182068714999957,
+    "status": "ok",
+    "stage_id": "alpha_000_g1"
+  },
+  {
+    "stage": "eval_perplexity",
+    "seconds": 0.6265207980000014,
+    "status": "ok",
+    "stage_id": "alpha_000_g1"
+  },
+  {
+    "stage": "eval_embeddings",
+    "seconds": 0.8493705280000086,
+    "status": "ok",
+    "stage_id": "alpha_000_g1"
+  },
+  {
+    "stage": "write_outputs",
+    "seconds": 0.001459625999984837,
+    "status": "ok",
+    "stage_id": "alpha_000_g1"
+  },
+  {
+    "stage": "fit",
+    "seconds": 10.039678117999983,
+    "status": "ok",
+    "stage_id": "alpha_000_g2"
+  },
+  {
+    "stage": "eval_generation",
+    "seconds": 7.372926059000065,
+    "status": "ok",
+    "stage_id": "alpha_000_g2"
+  },
+  {
+    "stage": "eval_perplexity",
+    "seconds": 0.6341908180000928,
+    "status": "ok",
+    "stage_id": "alpha_000_g2"
+  },
+  {
+    "stage": "eval_embeddings",
+    "seconds": 0.8052813279999782,
+    "status": "ok",
+    "stage_id": "alpha_000_g2"
+  },
+  {
+    "stage": "write_outputs",
+    "seconds": 0.0014054900000246562,
+    "status": "ok",
+    "stage_id": "alpha_000_g2"
+  },
+  {
+    "stage": "train_generation",
+    "seconds": 16.041789428000016,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "fit",
+    "seconds": 9.094571770000016,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "eval_generation",
+    "seconds": 8.022709667999948,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "eval_perplexity",
+    "seconds": 0.7146035429999529,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "eval_embeddings",
+    "seconds": 0.8053089670000873,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "write_outputs",
+    "seconds": 0.0012973450000117737,
+    "status": "ok",
+    "stage_id": "alpha_100_g1"
+  },
+  {
+    "stage": "train_generation",
+    "seconds": 15.264705189000097,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  },
+  {
+    "stage": "fit",
+    "seconds": 10.111871124000004,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  },
+  {
+    "stage": "eval_generation",
+    "seconds": 8.05524284799992,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  },
+  {
+    "stage": "eval_perplexity",
+    "seconds": 0.736079946000018,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  },
+  {
+    "stage": "eval_embeddings",
+    "seconds": 0.8748786249999512,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  },
+  {
+    "stage": "write_outputs",
+    "seconds": 0.0014145650000045862,
+    "status": "ok",
+    "stage_id": "alpha_100_g2"
+  }
+]

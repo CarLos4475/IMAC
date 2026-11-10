@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "run": "datos",
+  "fits": [
+    {
+      "stage": "M0_human",
+      "updates": 8,
+      "target_tokens": 8192,
+      "synthetic_examples": 0,
+      "eval_texts": 32,
+      "replacement_characters_in_text": 2,
+      "checks": "passed"
+    },
+    {
+      "stage": "alpha_000_g1",
+      "updates": 8,
+      "target_tokens": 8192,
+      "synthetic_examples": 0,
+      "eval_texts": 32,
+      "replacement_characters_in_text": 1,
+      "checks": "passed"
+    },
+    {
+      "stage": "alpha_000_g2",
+      "updates": 8,
+      "target_tokens": 8192,
+      "synthetic_examples": 0,
+      "eval_texts": 32,
+      "replacement_characters_in_text": 0,
+      "checks": "passed"
+    },
+    {
+      "stage": "alpha_100_g1",
+      "updates": 8,
+      "target_tokens": 8192,
+      "synthetic_examples": 64,
+      "eval_texts": 32,
+      "replacement_characters_in_text": 0,
+      "checks": "passed"
+    },
+    {
+      "stage": "alpha_100_g2",
+      "updates": 8,
+      "target_tokens": 8192,
+      "synthetic_examples": 64,
+      "eval_texts": 32,
+      "replacement_characters_in_text": 0,
+      "checks": "passed"
+    }
+  ],
+  "timed_seconds": 210.96634881300002,
+  "archive_sha256": "3315a77db4a2ac1f259ed85506dec5a11f474e9bfba908107a5e8dbe27ab2389",
+  "not_recomputed": [
+    "training",
+    "GPU inference",
+    "embeddings",
+    "perplexity from weights"
+  ],
+  "checks": [
+    "metadata",
+    "article partitions",
+    "initial weights/optimizer logs",
+    "budgets",
+    "contexts",
+    "exact synthetic mixture",
+    "sampling seeds",
+    "generated token lengths",
+    "lexical metrics recomputed",
+    "timings",
+    "executed notebook without error outputs"
+  ]
+}

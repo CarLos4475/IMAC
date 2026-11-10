@@ -1,0 +1,10 @@
+{
+  "word_limit": 32,
+  "n_texts": 32,
+  "short_texts": 0,
+  "distinct_2": 0.9586693548387096,
+  "distinct_3": 0.996875,
+  "repeat_4_mean": 0.0,
+  "semantic_dispersion": 0.8935948684811592,
+  "embedding_truncated_texts": 0
+}

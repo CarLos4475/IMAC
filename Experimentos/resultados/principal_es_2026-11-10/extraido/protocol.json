@@ -1,0 +1,66 @@
+{
+  "spec": {
+    "config": {
+      "language": "es",
+      "model": "datificate/gpt2-small-spanish",
+      "dataset": "wikimedia/wikipedia",
+      "subset": "20231101.es",
+      "embedding": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "article_pool": 2000,
+      "seed": 20261109,
+      "train_examples": 512,
+      "eval_examples": 128,
+      "context_tokens": 64,
+      "target_tokens": 128,
+      "cycles": 5,
+      "alphas": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "micro_batch": 2,
+      "effective_batch": 8,
+      "sample_batch": 8,
+      "learning_rate": 2e-05,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "weight_decay": 0.01,
+      "max_grad_norm": 1.0,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "max_words": 32,
+      "embedding_max_tokens": 128,
+      "allow_cpu": false,
+      "save_checkpoints": true,
+      "validation_examples": 128,
+      "repetitions": 3,
+      "split_seed": 20261109,
+      "model_revision": "02e3092372e8a8b20c64e29350a024a998a7c00d",
+      "dataset_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "embedding_revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42"
+    },
+    "code_sha256": "42531e6eece94da4767215350947c4d321ca29ddf29cf403c6ef545b592c5624",
+    "eos_policy": "128 tokens sin IDs especiales",
+    "word_pattern": "\\w+(?:['’]\\w+)*",
+    "mixture_policy": "subset sintético fijo por repetición/alpha; generar 512 antes de mezclar"
+  },
+  "environment": {
+    "python": "3.13.16",
+    "packages": {
+      "torch": "2.14.1+cu130",
+      "transformers": "5.22.2",
+      "datasets": "5.1.0",
+      "safetensors": "0.8.0",
+      "numpy": "2.4.6",
+      "tokenizers": "0.23.3",
+      "huggingface-hub": "1.33.0"
+    },
+    "gpu": "Tesla T4",
+    "cuda": "13.0",
+    "cudnn": 92800
+  },
+  "signature": "85e3dd5db7d35d65ac6731699633e16248fe8a23e2f8bcc35768f04ea4112156"
+}

@@ -1,0 +1,17 @@
+{
+  "signature": "85e3dd5db7d35d65ac6731699633e16248fe8a23e2f8bcc35768f04ea4112156",
+  "files": {
+    "training_corpus.json": "8282ff962dcc11889fad5a7ccc28e9318fc9b01d43ad0a9dddfc01b30205ac1d",
+    "corpus_record.json": "eb7dd31fdf1e981afecec597eed55d1337842d280b7fff92072b3ea97ba0089b",
+    "fit.json": "712cf766289f5b85f6e62630b1ab2e25ea72cf41ea45f9b2fa6526fdbcb14978",
+    "test_generations.json": "d3a4991a7cd3d7031b949286efd1713619ccbd1949484c65900d7521f67b70fd",
+    "metrics.json": "0f0641227ca456c44218b3d1c6ff27eb4290e89ba1181bb0028a8b3ac3acbc78"
+  },
+  "details": {
+    "id": "r1_a100_g4",
+    "rep": 1,
+    "cycle": 4,
+    "alpha": 1.0,
+    "parent": "r1_a100_g3"
+  }
+}

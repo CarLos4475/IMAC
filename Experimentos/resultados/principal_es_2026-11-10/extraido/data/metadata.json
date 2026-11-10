@@ -1,0 +1,18 @@
+{
+  "word_limit": 30,
+  "scanned_articles": 2000,
+  "split_counts": {
+    "train": 1581,
+    "validation": 220,
+    "test": 199
+  },
+  "eligible_counts": {
+    "train": 1461,
+    "validation": 202,
+    "test": 184
+  },
+  "corpus_sha256": "8192b87cc94a097a92a390a39724c1162c210d85c46fde4ddb40f9a58ea536f6",
+  "split_seed": 20261109,
+  "test_used_for_tuning": false,
+  "normalization": "NFC; minúsculas solo en métricas; tildes y ñ conservadas"
+}

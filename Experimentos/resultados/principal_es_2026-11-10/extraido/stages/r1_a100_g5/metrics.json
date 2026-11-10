@@ -1,0 +1,17 @@
+{
+  "human_nll": 3.682735923677683,
+  "human_perplexity": 39.75501209841185,
+  "ppl_target_tokens": 16384,
+  "word_limit": 30,
+  "n_texts": 128,
+  "short_texts": 4,
+  "distinct_2": null,
+  "distinct_3": null,
+  "repeat_4_mean": null,
+  "semantic_dispersion": null,
+  "embedding_truncated_texts": null,
+  "stage": "r1_a100_g5",
+  "rep": 1,
+  "cycle": 5,
+  "alpha": 1.0
+}

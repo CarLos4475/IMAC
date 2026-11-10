@@ -1,0 +1,79 @@
+% =========================================================
+% BORRADOR (NO INCLUIDO EN main.tex TODAVÍA)
+% Estructura de Resultados, Discusión y Conclusiones, sin cifras.
+% Creado el 9 de noviembre de 2026, antes de terminar la ejecución principal.
+%
+% Cómo usarlo cuando existan resultados:
+%   1. python Experimentos/generar_resultados_latex.py <carpeta con results.csv>
+%      (escribe tablas y figura en Manuscrito/resultados_generados/).
+%   2. Añadir \usepackage{graphicx} al preámbulo de main.tex.
+%   3. Copiar este contenido a main.tex, sustituyendo cada bloque «COMPLETAR»
+%      por texto redactado con los números reales. No dejar afirmaciones
+%      que los datos no respalden.
+% Reglas del proyecto: voz impersonal, español académico sencillo y prudente;
+% hipótesis y clasificación no son causalidad; tres cadenas no permiten
+% inferencia general; no tratar los textos como réplicas independientes.
+% =========================================================
+
+\section{Resultados}
+
+\subsection{Ejecución realizada y verificación de los datos}
+% COMPLETAR con hechos verificables de verificacion_y_valores.json:
+% - etapas completadas (48 previstas) y entorno efectivo (GPU, versiones);
+% - fecha y duración aproximada de la ejecución;
+% - longitud léxica W fijada con validación;
+% - textos más cortos que W y truncamientos del codificador (si los hubo);
+% - cualquier desviación respecto del protocolo y su causa.
+
+\subsection{Trayectorias de las métricas}
+% COMPLETAR: describir, sin interpretar causas, cómo cambian las cinco métricas
+% por ciclo y proporción sintética. Referenciar la figura y las tablas:
+%   \input{resultados_generados/tabla_medias_human_perplexity.tex}
+%   \input{resultados_generados/tabla_medias_distinct_2.tex}
+%   \input{resultados_generados/tabla_medias_distinct_3.tex}
+%   \input{resultados_generados/tabla_medias_repeat_4_mean.tex}
+%   \input{resultados_generados/tabla_medias_semantic_dispersion.tex}
+% Figura:
+%   \begin{figure}[ht]\centering
+%   \includegraphics[width=\textwidth]{resultados_generados/figura_trayectorias.pdf}
+%   \caption{Media y rango de tres cadenas por ciclo y proporción sintética.}
+%   \label{fig:trayectorias}\end{figure}
+
+\subsection{Comparaciones frente al punto inicial y al control}
+% COMPLETAR: usar resultados_generados/tabla_contrastes.tex (ciclo final) y, si
+% es útil, los contrastes por ciclo de contrasts.csv. Indicar en cuántas de las
+% tres cadenas coincide el signo del cambio. Sin p-valores ni «significativo».
+
+\subsection{Muestras de texto generado}
+% COMPLETAR: citar con prudencia algunos ejemplos tomados por orden guardado
+% (no seleccionados por ser llamativos), indicando etapa y semilla; señalar
+% coherencia, repeticiones o caracteres anómalos observados.
+
+\section{Discusión}
+
+\subsection{Lectura de los resultados frente a las preguntas e hipótesis}
+% COMPLETAR: relacionar lo observado con cada pregunta de investigación.
+% Si no hay deterioro apreciable, decirlo; si lo hay, decir en qué métricas,
+% con qué magnitud y con qué consistencia entre cadenas.
+
+\subsection{Comparación con la literatura revisada}
+% COMPLETAR: contrastar con los antecedentes del estado del arte (Shumailov,
+% Kazdan, Gerstgrasser, etc.) señalando diferencias de protocolo (cada ciclo
+% parte del modelo preentrenado, una época, presupuesto fijo, mezcla solo en
+% objetivos, contextos humanos fijos). No reclamar novedad.
+
+\subsection{Limitaciones}
+% COMPLETAR, conservando lo que ya se declaró en la metodología:
+% - tres cadenas y un solo modelo pequeño, idioma y fuente (Wikipedia);
+% - ajuste breve desde el modelo preentrenado, no acumulativo;
+% - referencia de Wikipedia sin certificación de autoría humana individual
+%   y posible solapamiento con el preentrenamiento del generador;
+% - métricas de diversidad no miden calidad ni pérdida de patrones raros;
+% - sin evaluación humana sistemática;
+% - comparaciones exploratorias.
+
+\section{Conclusiones}
+% COMPLETAR: respuestas breves a las preguntas, ligadas a lo medido, sin
+% generalizar más allá del diseño. Opcional: dos o tres líneas de trabajo
+% futuro (acumulación de datos, más repeticiones, evaluación de patrones
+% raros, evaluación humana), sin presentarlas como compromisos.

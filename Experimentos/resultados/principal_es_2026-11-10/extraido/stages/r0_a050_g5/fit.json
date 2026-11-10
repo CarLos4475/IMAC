@@ -1,0 +1,11 @@
+{
+  "initial_weight_sha256": "7ec448815914c803a746793834766e025850853971ddc7e9e62672d9cb20954d",
+  "train_seed": 3130870091,
+  "optimizer_initial_entries": 0,
+  "updates": 64,
+  "target_tokens_seen": 65536,
+  "train_loss_mean": 3.4613110180944204,
+  "final_weight_sha256": "3e49fcd38fb90bc94a679c6cd34f9c232d469c41ada3b7c5f4dd0c34b03b4657",
+  "corpus_sha256": "70156df688679dbe170e679a9443ca2a680dd9ec4afcee5e601d4423709a5ff3",
+  "checkpoint_sha256": "8853d63d3a07b5f97e51dbfb030f72841c3ee89ac6a5d4cab5b3c557e1bdeaad"
+}

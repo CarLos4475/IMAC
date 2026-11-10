@@ -1,0 +1,14 @@
+# Temporales y cachés
+_to_delete/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Auxiliares de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk

@@ -1,0 +1,17 @@
+{
+  "human_nll": 3.4589051716029644,
+  "human_perplexity": 31.782161447011564,
+  "ppl_target_tokens": 16384,
+  "word_limit": 30,
+  "n_texts": 128,
+  "short_texts": 0,
+  "distinct_2": 0.8919719827586207,
+  "distinct_3": 0.9835379464285714,
+  "repeat_4_mean": 0.006944444444444446,
+  "semantic_dispersion": 0.8886724561452866,
+  "embedding_truncated_texts": 0,
+  "stage": "r1_a050_g3",
+  "rep": 1,
+  "cycle": 3,
+  "alpha": 0.5
+}

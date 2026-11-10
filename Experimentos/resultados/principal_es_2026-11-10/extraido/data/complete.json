@@ -1,0 +1,10 @@
+{
+  "signature": "85e3dd5db7d35d65ac6731699633e16248fe8a23e2f8bcc35768f04ea4112156",
+  "files": {
+    "corpus.json": "d1989563fb551b33189fda3a7de0ebd8fe61c19fd9cbda33827982adb4b59602",
+    "metadata.json": "017f894e97adefaa49b678e9b31fcf0236a53e9db1f91e1087cea069556ce6ac"
+  },
+  "details": {
+    "kind": "data_prepared"
+  }
+}
