@@ -1,0 +1,173 @@
+\documentclass[12pt]{article}
+
+% ------------------------------------------------
+% Paquetes
+% ------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+% ------------------------------------------------
+% Configuración
+% ------------------------------------------------
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+\onehalfspacing
+
+\titleformat{\section}
+{\large\bfseries}
+{\thesection.}
+{0.5em}
+{}
+
+\titleformat{\subsection}
+{\normalsize\bfseries}
+{\thesubsection.}
+{0.5em}
+{}
+
+% ------------------------------------------------
+% Documento
+% ------------------------------------------------
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Preguntas de investigación}}\\[0.5cm]
+    {\large Investigación en Matemáticas Aplicadas y Computación}
+
+    \begin{enumerate}
+        \item Carlos Emiliano Segura Loera
+        \item Valeria Hernandez Santos
+        \item Nehiel Ramirez Hernandez
+    
+    \end{enumerate}
+\end{center}
+
+\vspace{0.5cm}
+
+\section{Exploración del problema de investigación}
+
+A partir de las preguntas exploratorias propuestas en el texto
+\textit{Claves para plantear preguntas de investigación}, se analiza
+el problema relacionado con el fenómeno de \textit{model collapse} y
+la incorporación recurrente de contenido sintético en el entrenamiento
+de modelos de lenguaje.
+
+\subsection{¿En qué consiste exactamente el problema que estamos abordando?}
+
+El problema consiste en estudiar qué ocurre cuando contenido generado
+por modelos de lenguaje se incorpora de manera recurrente a los datos
+utilizados para entrenar nuevos modelos. En particular, interesa
+determinar si este proceso reduce la diversidad del contenido y aumenta
+la repetición de patrones.
+
+\subsection{¿En qué circunstancias surge el problema y a quiénes afecta?}
+
+El problema puede surgir cuando contenido sintético se mezcla con datos
+humanos y posteriormente se utiliza para entrenar nuevos modelos. Esto
+es relevante para el desarrollo de modelos de lenguaje y para la calidad
+y diversidad de la información disponible en Internet.
+
+\subsection{¿Cómo se suscitó nuestro interés por el problema?}
+
+El interés surge a partir del fenómeno denominado ``Internet muerto'' y
+del aumento de contenido generado mediante inteligencia artificial. Esto
+lleva a cuestionar qué puede ocurrir cuando dicho contenido comienza a
+ser utilizado nuevamente como información de entrenamiento.
+
+\subsection{¿Qué necesitamos averiguar?}
+
+Necesitamos determinar cómo cambia el contenido generado cuando aumenta
+la presencia de datos sintéticos en el entrenamiento, considerando tanto
+la proporción de estos datos como el número de generaciones de
+entrenamiento.
+
+\subsection{¿Qué limitaciones tenemos para investigar el problema?}
+
+La principal limitación es la disponibilidad de recursos
+computacionales. Por ello, el estudio deberá centrarse en modelos y
+conjuntos de datos que puedan ser utilizados dentro de los recursos
+disponibles.
+
+\subsection{¿Qué facetas del problema resultan más relevantes?}
+
+Las principales dimensiones de interés son la diversidad léxica y
+semántica, la repetición de patrones y la relación de estos fenómenos
+con la proporción de datos sintéticos y el número de generaciones.
+
+\subsection{¿Qué impacto o consecuencias esperamos que tenga la investigación?}
+
+Se busca contribuir a una mejor comprensión de los efectos de reutilizar
+contenido sintético en el entrenamiento de modelos de lenguaje,
+particularmente sobre la diversidad y repetición del contenido generado.
+
+\section{Preguntas de investigación}
+
+A partir de la exploración anterior se establece como problema central
+el posible efecto de la incorporación recurrente de datos sintéticos en
+el entrenamiento de modelos de lenguaje.
+
+\subsection{Pregunta principal}
+
+\begin{quote}
+\textbf{¿Cómo cambia la diversidad del contenido generado por modelos
+de lenguaje cuando se incorporan repetidamente datos sintéticos al
+proceso de entrenamiento?}
+\end{quote}
+
+Esta pregunta permite estudiar el fenómeno de \textit{model collapse}
+desde una dimensión concreta y susceptible de análisis: los cambios en
+la diversidad del contenido generado a través de sucesivas generaciones
+de entrenamiento.
+
+\subsection{Preguntas secundarias}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{¿Cómo cambia la diversidad léxica y semántica del
+    contenido generado conforme aumenta el número de generaciones de
+    entrenamiento con datos sintéticos?}
+
+    \item \textbf{¿Cómo influye la proporción de datos sintéticos
+    utilizados durante el entrenamiento en la diversidad del contenido
+    generado?}
+
+    \item \textbf{¿Cómo cambia la frecuencia de patrones, frases o
+    estructuras repetitivas conforme se incorporan datos sintéticos de
+    manera recurrente?}
+
+    \item \textbf{¿Qué relación existe entre la proporción de datos
+    sintéticos y el número de generaciones de entrenamiento en los
+    cambios observados en la diversidad del contenido?}
+
+    \item \textbf{¿Qué características del contenido generado permiten
+    identificar la aparición de un proceso asociado con el
+    \textit{model collapse}?}
+\end{enumerate}
+
+\section{Relación con la hipótesis y el capitulado}
+
+Las preguntas planteadas permiten delimitar los principales aspectos
+del fenómeno que serán estudiados. La pregunta principal establece la
+relación general entre el entrenamiento recurrente con datos sintéticos
+y la diversidad del contenido generado.
+
+Las preguntas secundarias permiten abordar específicamente la
+diversidad léxica y semántica, la proporción de datos sintéticos, la
+repetición de patrones y el efecto acumulativo de las generaciones de
+entrenamiento.
+
+A partir de estas preguntas será posible desarrollar el capitulado y
+formular una hipótesis que pueda ser contrastada mediante un diseño
+experimental y métricas de diversidad y repetición.
+
+\end{document}

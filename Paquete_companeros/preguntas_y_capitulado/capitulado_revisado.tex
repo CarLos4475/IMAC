@@ -1,0 +1,509 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage[letterpaper,top=2.5cm,bottom=2.5cm,left=3cm,right=3cm,footskip=1.25cm]{geometry}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Propuesta de capitulado y justificación},pdfauthor={Carlos Emiliano Segura Loera, Valeria Hernandez Santos, Nehiel Ramirez Hernandez},pdfsubject={Investigación en Matemáticas Aplicadas y Computación}}
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{4pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\small FES Acatlán · UNAM}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\titleformat{\section}{\normalfont\bfseries\large}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{\thesubsection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{16pt}{9pt}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+\raggedbottom
+\newcommand{\numerocap}{1}
+\newlist{apartados}{enumerate}{2}
+\setlist[apartados,1]{label=\numerocap.\arabic*.,leftmargin=1.05cm,labelsep=0.18cm,itemsep=2pt,topsep=4pt,parsep=0pt}
+\setlist[apartados,2]{label=\numerocap.\arabic{apartadosi}.\arabic*.,leftmargin=1.35cm,labelsep=0.18cm,itemsep=1pt,topsep=2pt,parsep=0pt}
+\newcommand{\capitulo}[2]{\renewcommand{\numerocap}{#1}\Needspace{5\baselineskip}\subsection*{Capítulo #1. #2}}
+% Fecha de elaboración de esta actividad; modificar si se indica otra entrega.
+\newcommand{\fechaactividad}{18 de octubre de 2026}
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{spacing}{1}
+\begin{center}
+\vspace*{0.5cm}
+{\large\bfseries UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\par}
+\vspace{0.25cm}
+{\large FACULTAD DE ESTUDIOS SUPERIORES ACATLÁN\par}
+\vspace{0.15cm}
+{\normalsize Licenciatura en Matemáticas Aplicadas y Computación\par}
+\vspace{1.15cm}
+{\large\bfseries INVESTIGACIÓN EN MATEMÁTICAS APLICADAS Y\\COMPUTACIÓN\par}
+\vspace{1.1cm}
+{\LARGE\bfseries Contenido sintético en Internet y degradación\\[0.15cm]de modelos de lenguaje\par}
+\vspace{0.35cm}
+{\large Una aproximación al fenómeno de \textit{Model Collapse}\par}
+\vspace{0.7cm}
+{\Large\bfseries Propuesta de capitulado\par}
+\vspace{0.2cm}
+{\normalsize Estructura provisional y justificación\par}
+\end{center}
+\vspace{1.4cm}
+\begin{flushright}
+\begin{minipage}{0.64\textwidth}
+\textbf{Alumnos:}\\[0.15cm]
+Carlos Emiliano Segura Loera\\
+Valeria Hernandez Santos\\
+Nehiel Ramirez Hernandez
+\vspace{0.5cm}
+
+\textbf{Profesor:}\\[0.1cm]
+Sergio Quiroz Almaraz
+\vspace{0.5cm}
+
+\textbf{Fecha de elaboración:}\\[0.1cm]
+\fechaactividad
+\vspace{0.5cm}
+
+Naucalpan de Juárez, Estado de México
+\end{minipage}
+\end{flushright}
+\end{spacing}
+\end{titlepage}
+\pagenumbering{arabic}
+\justifying
+\section*{Presentación de la propuesta}
+El presente documento propone el capitulado de la investigación
+\textit{Contenido sintético en Internet y degradación de modelos de lenguaje}.
+La organización parte de la siguiente pregunta principal:
+\begin{quote}
+¿Cómo cambia la diversidad del contenido generado por modelos de lenguaje
+cuando se incorporan repetidamente datos sintéticos al proceso de entrenamiento?
+\end{quote}
+Se plantea una estructura de siete capítulos centrales y un capítulo
+complementario opcional que permita avanzar del problema y sus fundamentos
+hacia el diseño experimental, la presentación de resultados y su
+interpretación. La proporción de datos sintéticos y el número de
+generaciones organizan la comparación; la diversidad y la repetición
+constituyen las principales dimensiones de evaluación.
+
+El capitulado aún puede cambiar. Los apartados indican qué se propone
+desarrollar, pues aún no se han definido por completo el modelo, el conjunto
+de datos ni las métricas que se utilizarán.
+
+\section*{Capitulado propuesto}
+\begin{spacing}{1.08}
+\capitulo{1}{Introducción}
+\begin{apartados}
+\item Contexto del contenido sintético y los modelos de lenguaje
+\item Motivación del estudio
+\begin{apartados}
+\item La teoría del Internet muerto como contexto
+\item Reutilización de contenido sintético en el entrenamiento
+\end{apartados}
+\item Planteamiento del problema
+\item Pregunta principal de investigación
+\item Preguntas secundarias
+\item Objetivos de la investigación
+\begin{apartados}
+\item Objetivo general
+\item Objetivos específicos
+\end{apartados}
+\item Hipótesis de investigación
+\item Justificación y aportación esperada
+\item Alcances y delimitaciones
+\end{apartados}
+
+\capitulo{2}{Marco teórico}
+\begin{apartados}
+\item Modelos generativos de lenguaje
+\begin{apartados}
+\item Generación de texto como proceso probabilístico
+\item Preentrenamiento y ajuste de modelos
+\item Estrategias de muestreo y decodificación
+\end{apartados}
+\item Datos utilizados en el entrenamiento
+\begin{apartados}
+\item Datos de origen humano
+\item Datos sintéticos y semisintéticos
+\item Mezcla, reemplazo y acumulación de datos
+\end{apartados}
+\item Entrenamiento recursivo
+\begin{apartados}
+\item Ciclos de entrenamiento y generación
+\item Transmisión de información entre generaciones
+\end{apartados}
+\item El fenómeno de \textit{model collapse}
+\begin{apartados}
+\item Definición y manifestaciones
+\item Cambios en la distribución del contenido
+\item Pérdida de patrones poco frecuentes
+\item Diferencias entre colapso, repetición y disminución del rendimiento
+\end{apartados}
+\item Diversidad del contenido generado
+\begin{apartados}
+\item Diversidad léxica
+\item Diversidad semántica
+\item Diversidad sintáctica
+\end{apartados}
+\item Repetición y concentración de patrones
+\begin{apartados}
+\item Repetición dentro de un texto
+\item Similitud entre textos generados
+\end{apartados}
+\item Fundamentos de las métricas de evaluación
+\begin{apartados}
+\item Medidas de diversidad léxica
+\item Medidas de diversidad semántica
+\item Medidas de repetición
+\item Medidas de fidelidad distribucional y rendimiento
+\end{apartados}
+\end{apartados}
+
+\capitulo{3}{Estado del arte}
+\begin{apartados}
+\item Criterios de búsqueda y selección de literatura
+\item Evidencia inicial del colapso por entrenamiento recursivo
+\item Estudios sobre pérdida de diversidad lingüística
+\item Efectos de la proporción de datos sintéticos
+\item Conservación de datos originales y acumulación de generaciones
+\item Influencia de las estrategias de generación
+\item Estrategias de mitigación
+\begin{apartados}
+\item Selección y filtrado de datos
+\item Generación de datos semisintéticos
+\item Modificación del objetivo de entrenamiento
+\end{apartados}
+\item Comparación crítica de los trabajos revisados
+\begin{apartados}
+\item Modelos, datasets y tareas
+\item Protocolos y presupuestos de entrenamiento
+\item Métricas y limitaciones
+\end{apartados}
+\item Delimitación de la aportación del presente estudio
+\end{apartados}
+
+\capitulo{4}{Metodología}
+\begin{apartados}
+\item Enfoque y diseño experimental
+\item Definición operacional de las variables
+\begin{apartados}
+\item Proporción de datos sintéticos
+\item Número de generaciones
+\item Diversidad léxica y semántica
+\item Repetición del contenido
+\item Variables de control
+\end{apartados}
+\item Recursos e instrumentos computacionales
+\begin{apartados}
+\item Hardware disponible
+\item Software, bibliotecas y versiones
+\item Herramientas de entrenamiento y evaluación
+\end{apartados}
+\item Selección del modelo de lenguaje
+\begin{apartados}
+\item Criterios de selección
+\item Características y configuración del modelo
+\end{apartados}
+\item Selección y preparación del conjunto de datos
+\begin{apartados}
+\item Procedencia, idioma y características
+\item Limpieza y eliminación de duplicados
+\item División en entrenamiento, validación y prueba
+\item Identificación de patrones frecuentes y poco frecuentes
+\end{apartados}
+\item Condiciones experimentales
+\begin{apartados}
+\item Condición de referencia sin datos sintéticos
+\item Proporciones sintéticas seleccionadas
+\item Número de generaciones y repeticiones independientes
+\item Política de conservación o reemplazo de datos originales
+\item Presupuesto de datos y entrenamiento por condición
+\end{apartados}
+\item Procedimiento de entrenamiento recursivo
+\begin{apartados}
+\item Preparación del modelo inicial
+\item Generación del contenido sintético
+\item Construcción del conjunto de entrenamiento siguiente
+\item Inicialización y ajuste del modelo en cada generación
+\item Evaluación y almacenamiento de resultados
+\end{apartados}
+\item Configuración de generación del texto
+\begin{apartados}
+\item Selección de instrucciones o contextos de entrada
+\item Longitud y cantidad de textos generados
+\item Parámetros de muestreo y decodificación
+\item Gestión de semillas aleatorias
+\end{apartados}
+\item Métricas e instrumentos de evaluación
+\begin{apartados}
+\item Cálculo de diversidad léxica
+\item Cálculo de diversidad semántica
+\item Cálculo de repetición dentro y entre textos
+\item Evaluación de patrones poco frecuentes
+\item Evaluación complementaria de rendimiento o fidelidad
+\end{apartados}
+\item Procedimiento de análisis estadístico
+\begin{apartados}
+\item Unidad de análisis y unidad de réplica experimental
+\item Estadísticos descriptivos e incertidumbre
+\item Comparación entre proporciones y generaciones
+\item Análisis de la interacción entre ambos factores
+\item Criterios de contrastación de la hipótesis
+\end{apartados}
+\item Controles de reproducibilidad y calidad
+\begin{apartados}
+\item Registro de configuraciones y versiones
+\item Prevención de filtración de datos de evaluación
+\item Verificación de duplicados y errores del procedimiento
+\end{apartados}
+\item Consideraciones éticas y licencias de uso
+\end{apartados}
+
+\capitulo{5}{Resultados}
+\begin{apartados}
+\item Ejecución del experimento y datos obtenidos
+\item Resultados de la condición de referencia
+\item Evolución de la diversidad léxica
+\begin{apartados}
+\item Diferencias entre generaciones
+\item Diferencias entre proporciones sintéticas
+\end{apartados}
+\item Evolución de la diversidad semántica
+\begin{apartados}
+\item Diferencias entre generaciones
+\item Diferencias entre proporciones sintéticas
+\end{apartados}
+\item Evolución de la repetición
+\begin{apartados}
+\item Repetición dentro de los textos
+\item Similitud entre textos
+\end{apartados}
+\item Cambios en la representación de patrones poco frecuentes
+\item Resultados de la evaluación complementaria
+\item Interacción entre proporción sintética y generaciones
+\item Variabilidad entre repeticiones experimentales
+\item Resultados de los contrastes estadísticos
+\end{apartados}
+
+\capitulo{6}{Discusión}
+\begin{apartados}
+\item Interpretación de los cambios en diversidad
+\item Interpretación de los cambios en repetición
+\item Efecto conjunto de la proporción sintética y las generaciones
+\item Relación entre diversidad, fidelidad y rendimiento
+\item Evidencia compatible con \textit{model collapse}
+\begin{apartados}
+\item Indicadores observados
+\item Explicaciones alternativas y alcance de la evidencia
+\end{apartados}
+\item Comparación con los estudios previos
+\item Evaluación de la hipótesis de investigación
+\item Limitaciones y amenazas a la validez
+\begin{apartados}
+\item Modelo, dataset e idioma
+\item Presupuesto computacional y número de repeticiones
+\item Limitaciones de las métricas
+\item Alcance de la generalización de los resultados
+\end{apartados}
+\end{apartados}
+
+\capitulo{7}{Conclusiones}
+\begin{apartados}
+\item Respuesta a la pregunta principal
+\item Respuestas a las preguntas secundarias
+\item Cumplimiento de los objetivos
+\item Conclusión sobre la hipótesis, dentro de las condiciones evaluadas
+\item Aportaciones del estudio
+\item Limitaciones y líneas de continuación (si no se incluye el capítulo 8)
+\end{apartados}
+
+\capitulo{8}{Trabajo futuro (opcional)}
+\noindent\textit{La inclusión de este capítulo estará sujeta al tiempo
+disponible antes de la entrega. En esta propuesta se considera un apartado
+complementario.}
+\begin{apartados}
+\item Evaluación con otros modelos, tareas e idiomas
+\item Ampliación de generaciones y repeticiones
+\item Comparación de políticas de conservación de datos
+\item Evaluación de estrategias de mitigación
+\end{apartados}
+
+\Needspace{6\baselineskip}
+\subsection*{Referencias bibliográficas}
+Fuentes citadas a lo largo de la investigación, con un formato de referencia
+uniforme y datos bibliográficos verificados.
+
+\subsection*{Anexos}
+\begin{enumerate}[label=\Alph*.,leftmargin=0.8cm,itemsep=2pt,topsep=4pt]
+\item Configuraciones completas del experimento.
+\item Instrucciones y contextos utilizados para generar texto.
+\item Definiciones y fórmulas de las métricas seleccionadas.
+\item Tablas completas de resultados.
+\item Muestras de contenido por condición y generación.
+\item Código y guía de reproducción.
+\end{enumerate}
+\end{spacing}
+
+\clearpage
+\section*{Justificación de la selección y organización}
+
+\subsection*{Criterio general}
+Se selecciona una estructura que vincula la pregunta de investigación con las
+variables, los procedimientos y las evidencias que permitirán responderla.
+El orden propuesto distingue la explicación conceptual, la revisión de
+antecedentes, la ejecución del experimento y la interpretación de sus
+resultados. Esta separación facilita desarrollar cada tema con una función
+definida y evita repetir contenidos entre capítulos.
+
+La granularidad es mayor en la metodología porque el trabajo requiere
+precisar cómo se construyen las generaciones de datos y cómo se comparan.
+En cambio, la introducción y las conclusiones se mantienen centradas en el
+problema y su respuesta. Los niveles de numeración permiten convertir cada
+apartado en una tarea de redacción o de preparación experimental.
+
+\subsection*{Capítulo 1. Introducción}
+Se incluyen el problema, las preguntas, los objetivos, la hipótesis y la
+delimitación para establecer desde el comienzo qué se investigará y por qué.
+La teoría del Internet muerto se incorpora únicamente como motivación, pues
+la investigación no busca comprobarla ni estimar la proporción de contenido
+sintético en Internet.
+
+El tratamiento técnico de los modelos y del colapso se reserva al marco
+teórico. De esta manera, la introducción puede presentar el propósito del
+estudio sin extenderse en explicaciones que se desarrollarán posteriormente.
+
+\subsection*{Capítulo 2. Marco teórico}
+Se seleccionan los conceptos necesarios para comprender el experimento:
+modelos de lenguaje, datos sintéticos, entrenamiento recursivo, distribución,
+diversidad y repetición. La distinción entre preentrenamiento y ajuste
+permitirá describir con precisión el procedimiento que finalmente se utilice.
+
+La separación entre diversidad léxica, semántica y sintáctica ayuda a evitar
+que toda variación del contenido se interprete como un mismo fenómeno.
+La diversidad sintáctica se incluye como fundamento conceptual; su medición
+experimental dependerá de la factibilidad y no constituye todavía un
+compromiso metodológico. También se distingue el colapso de la repetición y
+del deterioro del rendimiento para no identificarlo a partir de un único
+indicador.
+
+\subsection*{Capítulo 3. Estado del arte}
+Este capítulo se organiza por problemas y enfoques, de modo que la literatura
+permita comparar cómo se ha estudiado el fenómeno. Se consideran la
+proporción sintética, la conservación de datos originales, la acumulación,
+las estrategias de generación y las mitigaciones porque son decisiones
+directamente relacionadas con el diseño del proyecto.
+
+La comparación de modelos, tareas, métricas y presupuestos permitirá
+delimitar una aportación realista. El trabajo no pretende presentar el
+\textit{model collapse} como un fenómeno nuevo; busca definir una reproducción
+o comparación experimental concreta, accesible y documentada.
+
+\subsection*{Capítulo 4. Metodología}
+Se propone el mayor nivel de detalle en este capítulo para que el
+procedimiento pueda ejecutarse y reproducirse. Se justificará la selección
+de los modelos pequeños, se describirán los datos, se definirán las
+condiciones y se registrarán los instrumentos computacionales utilizados.
+
+Se incluyen una condición sin datos sintéticos, la política de conservación
+de datos humanos y el presupuesto de entrenamiento para distinguir los
+efectos de las condiciones comparadas. También se propone precisar la
+inicialización de cada ciclo, los parámetros de generación y las semillas
+aleatorias, pues forman parte del procedimiento que produce el contenido
+evaluado.
+
+El análisis estadístico se incorpora desde el diseño para precisar las
+unidades de réplica, la incertidumbre y los criterios de comparación.
+Los textos generados por una misma cadena de entrenamiento no se tratarán
+automáticamente como experimentos independientes. Las pruebas y métricas
+concretas se seleccionarán después de definir el diseño y los datos
+disponibles.
+
+\subsection*{Capítulo 5. Resultados}
+Los resultados se organizan según las dimensiones medidas y los factores
+experimentales. Esta distribución permite presentar cómo evolucionan la
+diversidad y la repetición entre generaciones y proporciones, además de
+mostrar la variabilidad entre repeticiones.
+
+Se incluyen la referencia sin datos sintéticos y los contrastes estadísticos
+para que las comparaciones tengan un punto de partida explícito. En este
+capítulo se reportarán mediciones, tablas, gráficas y ejemplos obtenidos con
+criterios previamente definidos; las explicaciones de sus causas y su
+relación con la literatura se desarrollarán en la discusión.
+
+\subsection*{Capítulo 6. Discusión}
+La discusión se mantiene separada de los resultados para distinguir lo
+observado de su interpretación. Aquí se examinará qué significan los cambios,
+cómo se relacionan con los estudios previos y qué evidencia aportan respecto
+de la hipótesis.
+
+Se incorpora un apartado sobre explicaciones alternativas porque una
+disminución de diversidad o un aumento de repetición, por sí solos, pueden
+ser insuficientes para sostener una conclusión sobre colapso. Asimismo,
+las limitaciones del modelo, los datos, las métricas y el presupuesto
+permitirán precisar hasta dónde se pueden generalizar los hallazgos.
+
+\subsection*{Capítulo 7. Conclusiones}
+Se seleccionan apartados vinculados directamente con la pregunta principal,
+las preguntas secundarias, los objetivos y la hipótesis. Esta correspondencia
+evita cerrar el documento con afirmaciones generales sobre inteligencia
+artificial que no se deriven del experimento.
+
+Las conclusiones deberán expresar lo que los resultados permitan sostener,
+incluida la posibilidad de no observar el efecto esperado o de encontrarlo
+solo en determinadas condiciones. La aportación se describirá de acuerdo con
+el alcance real del trabajo.
+
+Si no se incluye el capítulo de Trabajo futuro, el apartado 7.6 reunirá
+una síntesis de las limitaciones y de las posibles líneas de continuación,
+sin repetir su análisis detallado en la discusión.
+
+\subsection*{Capítulo 8. Trabajo futuro (opcional)}
+Se propone un capítulo breve para las extensiones que excedan el alcance
+actual: otros modelos, idiomas, tareas, más generaciones o estrategias de
+mitigación. Su función es identificar preguntas que surjan del estudio sin
+convertirlas en compromisos del experimento presente.
+
+Se considera este apartado complementario, pero de interés para dar
+continuidad al estudio. Su inclusión dependerá del tiempo disponible.
+Se dará prioridad
+al análisis y a la respuesta de las preguntas de investigación. Si el tiempo
+es limitado, las posibles continuaciones podrán mencionarse brevemente en
+las conclusiones, a partir de las limitaciones o los hallazgos del estudio,
+sin que su realización forme parte de la entrega actual.
+
+\subsection*{Correspondencia con las preguntas de investigación}
+La organización propuesta permite dar seguimiento a las preguntas
+secundarias mediante apartados concretos:
+\begin{itemize}[leftmargin=0.7cm,itemsep=4pt]
+\item \textbf{Diversidad léxica y semántica:} se define en el marco teórico,
+se operacionaliza en la metodología y se presenta en los apartados 5.3 y 5.4.
+\item \textbf{Proporción de datos sintéticos:} se establece como variable
+experimental y se compara dentro de los resultados de cada dimensión.
+\item \textbf{Repetición:} se evalúa dentro de cada texto y entre textos,
+con resultados concentrados en el apartado 5.5.
+\item \textbf{Interacción entre proporción y generaciones:} se incorpora
+en el diseño del análisis y se presenta específicamente en el apartado 5.8.
+\item \textbf{Indicadores asociados con \textit{model collapse}:} se examinan
+en el apartado 6.5 considerando conjuntamente los resultados y las
+explicaciones alternativas.
+\end{itemize}
+
+\subsection*{Carácter provisional y alcance}
+Los apartados de patrones poco frecuentes y evaluación complementaria
+dependen de contar con una referencia y un procedimiento de medición
+adecuados. Si no resultan viables, deberán ajustarse el capitulado y las
+afirmaciones que se pretenda sostener. La estructura propuesta organiza el
+desarrollo del trabajo, pero no anticipa resultados ni sustituye la definición
+final de la metodología.
+
+\end{document}

@@ -52,3 +52,6 @@ Ya existen resultados propios del **piloto** español ejecutado el 9 de noviembr
 
 Mover un pendiente a realizado solo con evidencia concreta. Registrar fecha, archivo afectado y comprobación. Si se descarta o sustituye una propuesta, indicar el motivo sin presentarla como un resultado negativo del experimento.
 
+
+## Paquete para el equipo (10 de noviembre de 2026)
+Se creó `Paquete_companeros/` (y `Paquete_companeros.zip`) con reglas y cifras, prompts para LLM, contexto completo en un solo archivo, artículo, resultados, código y contexto del proyecto, para que el equipo humanice el texto sin alterar cifras ni advertencias.

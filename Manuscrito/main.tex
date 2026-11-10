@@ -6,7 +6,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[spanish,es-nodecimaldot,es-tabla]{babel}
 
 % =========================================================
 % TIPOGRAFÍA
@@ -240,7 +240,7 @@ Sergio Quiroz Almaraz
 \vspace{0.5cm}
 
 \textbf{Fecha de entrega:}\\[0.1cm]
-28 de septiembre de 2026
+11 de noviembre de 2026
 
 \vspace{0.5cm}
 
@@ -374,6 +374,33 @@ datos sintéticos y el número de generaciones. El análisis busca
 distinguir los cambios observados de una interpretación más amplia sobre
 la aparición de efectos asociados con el \textit{model collapse}.
 
+\subsection{Preguntas de investigación}
+
+La pregunta principal que orienta el estudio es:
+
+\begin{quote}
+\textit{¿Cómo cambia la diversidad del contenido generado por modelos de
+lenguaje cuando se incorporan repetidamente datos sintéticos al proceso
+de entrenamiento?}
+\end{quote}
+
+De ella se desprenden cinco preguntas secundarias:
+\begin{enumerate}
+    \item ¿Cómo cambia la diversidad léxica y semántica del contenido
+    generado conforme aumenta el número de generaciones de entrenamiento
+    con datos sintéticos?
+    \item ¿Cómo influye la proporción de datos sintéticos utilizados
+    durante el entrenamiento en la diversidad del contenido generado?
+    \item ¿Cómo cambia la frecuencia de patrones, frases o estructuras
+    repetitivas conforme se incorporan datos sintéticos de manera
+    recurrente?
+    \item ¿Qué relación existe entre la proporción de datos sintéticos y
+    el número de generaciones de entrenamiento en los cambios observados
+    en la diversidad del contenido?
+    \item ¿Qué características del contenido generado permiten identificar
+    la aparición de un proceso asociado con el \textit{model collapse}?
+\end{enumerate}
+
 \subsection{Objetivos de la investigación}
 
 El objetivo general es analizar experimentalmente los cambios en la
@@ -456,9 +483,9 @@ tokens a partir de estas distribuciones condicionales.
 
 La arquitectura Transformer introdujo un procesamiento de secuencias basado
 en mecanismos de atención \cite{vaswani2017}. Este antecedente permite
-comprender la arquitectura de numerosos modelos actuales, aunque no implica
-que todos los modelos generativos tengan la misma configuración ni que en
-este estudio ya se haya seleccionado uno.
+comprender la arquitectura de numerosos modelos actuales, incluido el GPT-2
+utilizado en este estudio, aunque no implica que todos los modelos
+generativos tengan la misma configuración.
 
 \subsubsection{Preentrenamiento y ajuste de modelos}
 
@@ -468,8 +495,8 @@ los modifica utilizando otros datos o un objetivo específico. Por ejemplo,
 el ajuste con instrucciones utiliza ejemplos de solicitudes y respuestas
 para modificar el comportamiento de un modelo preentrenado
 \cite{wang2023selfinstruct}. Reentrenar desde cero y ajustar un modelo
-existente son procedimientos distintos; esa diferencia deberá precisarse
-al definir los ciclos experimentales.
+existente son procedimientos distintos; en este trabajo cada ciclo ajusta
+un modelo ya preentrenado, sin entrenarlo desde cero.
 
 \subsubsection{Estrategias de muestreo y decodificación}
 
@@ -491,8 +518,8 @@ producidos por la generación.
 En este trabajo se denomina dato de origen humano al texto producido por
 personas que se utilice como referencia inicial. Se trata de una definición
 operativa: el origen no garantiza por sí mismo calidad, representatividad
-ni ausencia de duplicados. La procedencia, las licencias y los criterios
-de selección deberán documentarse para el corpus elegido.
+ni ausencia de duplicados, por lo que la procedencia, las licencias y los
+criterios de selección del corpus se documentan en la metodología.
 
 \subsubsection{Datos sintéticos y semisintéticos}
 
@@ -507,14 +534,16 @@ existentes no constituyen tratamientos equivalentes.
 
 \subsubsection{Mezcla, reemplazo y acumulación de datos}
 
-Se distinguirán tres políticas: mezclar datos originales y sintéticos en
+Pueden distinguirse tres políticas: mezclar datos originales y sintéticos en
 una proporción definida; reemplazar datos de una generación por los de la
 siguiente; y acumular los conjuntos disponibles. Además, conservar un corpus
 creciente y entrenar con todo él es distinto de extraer un subconjunto de
 tamaño fijo en cada ciclo. Estas diferencias son relevantes para interpretar
 el comportamiento del entrenamiento recursivo \cite{kazdan2025}. La
 proporción sintética debe especificar su unidad de cálculo, por ejemplo
-documentos o tokens, y no solo un porcentaje sin referencia.
+documentos o tokens, y no solo un porcentaje sin referencia. En este
+estudio se utiliza una mezcla con presupuesto fijo, medida en tokens de las
+continuaciones.
 
 \subsection{Entrenamiento recursivo}
 
@@ -530,8 +559,9 @@ Como esquema conceptual, puede representarse mediante
 donde \(D_g\) es el conjunto usado en la generación \(g\), \(M_g\) el modelo
 resultante y \(S_g\) sus datos sintéticos. El conjunto siguiente puede
 incorporar datos originales y sintéticos, según la política seleccionada.
-Este esquema describe la dependencia entre datos y modelos; no fija todavía
-el protocolo experimental \cite{shumailov2024,kazdan2025}.
+Este esquema describe la dependencia entre datos y modelos
+\cite{shumailov2024,kazdan2025}; su concreción en este estudio se presenta
+en la metodología.
 
 \subsubsection{Transmisión de información entre generaciones}
 
@@ -540,9 +570,10 @@ no una copia exacta de la distribución inicial. Un patrón poco probable
 puede no aparecer en esa muestra y perder representación en los datos
 posteriores. El ajuste puede añadir diferencias de aproximación respecto
 de los datos recibidos. Shumailov et al.\ \cite{shumailov2024} analizan cómo
-estos errores pueden acumularse. También deberá distinguirse si cada ciclo
-parte de una copia del mismo modelo base o de los parámetros del ciclo
-anterior.
+estos errores pueden acumularse. También importa si cada ciclo parte de
+una copia del mismo modelo base o de los parámetros del ciclo anterior; en
+este trabajo se adoptó la primera opción, de modo que la información pasa
+de una generación a otra solo a través de los datos.
 
 \subsection{El fenómeno de \textit{model collapse}}
 
@@ -577,7 +608,7 @@ su significado \cite{zhu2025}.
 Las colas de una distribución corresponden, en este contexto, a eventos
 con baja probabilidad. Su pérdida puede preceder a una concentración más
 severa del modelo \cite{shumailov2024}. Para estudiar patrones textuales
-poco frecuentes será necesario definirlos respecto de un corpus de
+poco frecuentes es necesario definirlos respecto de un corpus de
 referencia. Una reducción de vocabulario, por sí sola, no demuestra pérdida
 de información semántica ni permite identificar qué casos se omitieron.
 
@@ -588,8 +619,8 @@ la decodificación, sin entrenamiento recursivo \cite{holtzman2020}.
 El rendimiento, por su parte, depende de una tarea o evaluación definida.
 Drayson et al.\ \cite{drayson2025} consideran conjuntamente rendimiento,
 características de generación y semejanza con referencias humanas. Estas
-dimensiones pueden ofrecer información complementaria; ninguna se tomará
-como prueba aislada y suficiente de colapso en este estudio.
+dimensiones pueden ofrecer información complementaria; en este estudio
+ninguna se toma como prueba aislada y suficiente de colapso.
 
 \subsection{Diversidad del contenido generado}
 
@@ -624,10 +655,10 @@ de este estudio.
 
 \subsubsection{Repetición dentro de un texto}
 
-Se considerará repetición interna la reiteración de palabras, secuencias
+Se entiende por repetición interna la reiteración de palabras, secuencias
 o fragmentos en una misma respuesta. Un \(n\)-grama es una secuencia de
 \(n\) unidades consecutivas; sus frecuencias permiten describir
-reiteraciones a distintas escalas. Se distinguirán las repeticiones
+reiteraciones a distintas escalas. Conviene distinguir las repeticiones
 necesarias por el tema de aquellas que dominan la respuesta o forman
 bucles, un comportamiento relacionado también con la decodificación
 \cite{holtzman2020}.
@@ -863,6 +894,27 @@ el 9 y el 10 de noviembre de 2026. El protocolo y los criterios de
 evaluación se fijaron antes de observar las comparaciones de prueba, sin
 exigir que se produjera un deterioro o un colapso avanzado.
 
+La unidad básica del experimento es un ejemplo formado por un
+\textit{contexto}, los primeros 64 tokens de un fragmento de Wikipedia, y
+su \textit{continuación objetivo}, los 128 tokens que lo siguen. El modelo
+se ajusta para producir la continuación a partir del contexto. En términos
+generales, cada repetición del experimento sigue estos pasos:
+\begin{enumerate}
+    \item Se ajusta el modelo preentrenado con las continuaciones originales
+    y se obtiene la generación inicial, \(M_0\).
+    \item El modelo de la generación anterior escribe nuevas continuaciones
+    para los mismos contextos de entrenamiento.
+    \item Se arma el siguiente conjunto de entrenamiento: según la
+    condición, se conservan las continuaciones originales, se reemplaza la
+    mitad o se reemplazan todas por las generadas.
+    \item Se ajusta de nuevo el modelo preentrenado con ese conjunto, lo que
+    da lugar a la siguiente generación.
+    \item La nueva generación se evalúa con contextos reservados que nunca
+    se usan para entrenar.
+\end{enumerate}
+Los pasos 2 a 5 forman un ciclo y se repiten cinco veces. Los apartados
+siguientes detallan cada elemento.
+
 \subsection{Variables y condiciones de comparación}
 
 La proporción sintética, \(\alpha\), se definió respecto del número de
@@ -912,7 +964,7 @@ a entrenamiento, de 80 a 89 a validación y el resto a prueba. Se conservó
 la semilla 20261109 del piloto para no trasladar sus artículos de ajuste
 o validación a la referencia final de prueba.
 
-Se recorrió mediante streaming un prefijo de hasta 2000 artículos. El texto
+Se leyeron en orden los primeros 2000 artículos del corpus. El texto
 se normalizó a Unicode NFC, conservando tildes y ñ, y se tokenizó sin
 añadir tokens especiales. De cada artículo suficientemente largo se
 seleccionó, con semilla fija, una ventana entre bloques no solapados de
@@ -921,8 +973,8 @@ artículos para entrenamiento, 128 para validación y 128 para prueba.
 Las tres muestras fueron disjuntas y se comprobaron IDs, hashes de contenido
 y ventanas exactas; una muestra insuficiente o duplicada detenía la preparación.
 
-Validación fijó la longitud común de las métricas antes de evaluar modelos
-en prueba. Los 128 contextos de prueba y sus continuaciones originales fueron
+La partición de validación se utilizó para fijar la longitud común de las
+métricas antes de evaluar los modelos en prueba. Los 128 contextos de prueba y sus continuaciones originales fueron
 iguales para todas las condiciones y repeticiones. El prefijo acotado no es
 representativo de toda Wikipedia ni de Internet. Además, el corpus no
 certifica autoría humana individual y el modelo ya fue adaptado a Wikipedia:
@@ -959,16 +1011,18 @@ muestreo y la evaluación, es decir, 48 ajustes en total.
 Se mantuvo una época por ajuste, tasa de aprendizaje \(2\times10^{-5}\),
 AdamW con \(\beta_1=0.9\), \(\beta_2=0.999\), \(\epsilon=10^{-8}\)
 y decaimiento de pesos 0.01 en todos los parámetros. Se utilizó float32,
-recorte de norma de gradiente a 1, sin scheduler ni precisión mixta. El lote
-efectivo fue ocho mediante microbatches de dos y acumulación de gradientes.
+recorte de norma de gradiente a 1, sin programación de la tasa de aprendizaje
+ni precisión mixta. El lote efectivo fue de ocho ejemplos, procesados en
+grupos de dos con acumulación de gradientes.
 La función de pérdida se calculó únicamente sobre los tokens objetivo;
 los tokens del contexto y del relleno se enmascararon. Con 512 ejemplos y
 lote efectivo ocho se obtuvieron 64 actualizaciones por ajuste.
 
-Se actualizaron todos los parámetros y se verificó la misma huella de
-pesos preentrenados al iniciar cada ajuste, con optimizador vacío. No fue necesario
-modificar el protocolo por falta de recursos; no se mezclaron
-configuraciones ni se seleccionaron checkpoints utilizando prueba.
+Se actualizaron todos los parámetros. Al iniciar cada ajuste se verificó
+que los pesos fueran exactamente los preentrenados y que el optimizador
+empezara vacío. No fue necesario modificar el protocolo por falta de
+recursos, y los datos de prueba no se usaron para elegir configuraciones
+ni modelos.
 
 \subsection{Generación de continuaciones}
 
@@ -1057,18 +1111,15 @@ Esta reducción no fue necesaria: los 48 ajustes se completaron con una reanudac
 
 \subsection{Reproducibilidad y consideraciones de uso}
 
-Se conservaron configuración final, versiones, revisiones de modelos y
-datos, manifiestos de particiones, semillas, registros de entrenamiento,
-continuaciones y tablas de métricas. Las etapas completas se identificaron
-mediante marcadores y hashes de archivos. Se guardaron lotes de generación
-para continuar los pendientes; un ajuste interrumpido sin checkpoint
-confirmado debía repetirse desde la base y su semilla. Se conservaron los
-puntos iniciales y el checkpoint necesario para continuar, eliminando pesos
-intermedios anteriores solo después de confirmar su sucesor. No se afirma
-reanudación dentro de un optimizador ni conservación de todos los pesos.
-No se utilizaron datos personales ni se publicarán corpus o pesos sin
-revisar sus condiciones de uso. Este informe distingue lo planeado de lo
-efectivamente ejecutado. El diseño experimental se completó sin cambios;
+Se registraron la configuración, las versiones del software, las
+revisiones del modelo y del corpus, las particiones, las semillas, los
+registros de entrenamiento, las continuaciones generadas y las métricas
+de cada etapa. Cada etapa completa se verificó mediante sumas de
+comprobación de sus archivos, de modo que una interrupción no pudiera
+mezclarse con resultados parciales: un ajuste interrumpido se repetía
+desde el modelo base con la misma semilla. No se utilizaron datos
+personales, y los recursos empleados son públicos. Este informe distingue
+lo planeado de lo efectivamente ejecutado. El diseño experimental se completó sin cambios;
 la única desviación del análisis previsto fue el análisis complementario
 de las métricas léxicas y semánticas, descrito en los resultados.
 
@@ -1102,13 +1153,11 @@ un análisis complementario \textit{post hoc}. Se seleccionaron los 90
 contextos de prueba cuyas continuaciones alcanzan \(W\) palabras en las 48
 etapas, de modo que todas las etapas se comparan con los mismos contextos y
 el mismo número de textos. Las métricas se recalcularon con las mismas
-funciones del notebook y, en el caso semántico, con la misma revisión del
+funciones de evaluación y, en el caso semántico, con la misma revisión del
 codificador. Este análisis se decidió después de observar la ausencia de
 métricas, por lo que se presenta como exploratorio y no como sustituto del
 criterio original. Al excluir precisamente los contextos donde aparecieron
 salidas más degradadas, es probable que subestime el deterioro.
-Los archivos originales, el análisis complementario y su código se conservan
-en \texttt{Experimentos/resultados/principal\_es\_2026-11-10/}.
 
 \subsection{Perplejidad sobre referencias originales}
 
@@ -1175,6 +1224,30 @@ positiva en las tres cadenas, de \(+0.013\) en promedio. Su magnitud es
 pequeña y los rangos se traslapan en varios ciclos, por lo que no se
 interpreta como un cambio robusto.
 
+\subsection{Interacción entre proporción sintética y generaciones}
+
+El efecto del número de ciclos dependió de la proporción sintética. Con
+\(\alpha=0\) las trayectorias fueron prácticamente planas. Con
+\(\alpha=0.5\) casi todo el cambio en perplejidad ocurrió en el primer
+ciclo y después se mantuvo estable, de modo que añadir generaciones no
+aumentó el efecto. Con \(\alpha=1\), en cambio, la perplejidad creció en
+promedio unas 1.8 unidades por ciclo y la diversidad léxica y la
+repetición empezaron a separarse del control a partir del segundo ciclo.
+Esta dependencia se describe a partir de las trayectorias; con tres
+repeticiones no se estimó un término de interacción formal.
+
+\subsection{Variabilidad entre repeticiones}
+
+Las tres cadenas de cada condición mostraron trayectorias muy parecidas.
+En el ciclo 5, el rango de la perplejidad fue de 0.10 con \(\alpha=0\),
+0.49 con \(\alpha=0.5\) y 0.75 con \(\alpha=1\), muy inferior a las
+diferencias entre condiciones. En las métricas léxicas la variación entre
+cadenas fue mayor en proporción: el rango de Distinct-2 fue de 0.016 con
+\(\alpha=0\), 0.012 con \(\alpha=0.5\) y 0.020 con \(\alpha=1\). Esta
+variabilidad es del mismo orden que la diferencia entre \(\alpha=0.5\) y
+el control, lo que explica que esa comparación no sea concluyente, pero es
+claramente menor que la diferencia observada con \(\alpha=1\).
+
 \subsection{Ejemplos de continuaciones}
 
 Los ejemplos siguientes provienen de la primera repetición y comparan, para
@@ -1208,6 +1281,16 @@ reiteradas y secuencias de saltos de línea. Estos patrones coinciden con
 el aumento de la repetición de 4-gramas y de las continuaciones cortas.
 Los ejemplos ilustran las mediciones y no sustituyen el análisis
 cuantitativo.
+
+\subsection{Aspectos previstos que no se evaluaron}
+
+Dos aspectos contemplados en la planeación no se midieron en esta
+ejecución. La representación de patrones poco frecuentes requería un
+procedimiento específico que no se implementó, y la repetición entre
+textos se aproximó únicamente mediante la dispersión semántica, sin una
+medida léxica de similitud entre continuaciones. Tampoco se aplicaron
+pruebas de significación; los contrastes se informan como diferencias
+descriptivas entre cadenas, de acuerdo con el análisis previsto.
 
 \section{Discusión}
 
@@ -1297,33 +1380,85 @@ de patrones raros con un procedimiento específico.
 
 \section{Conclusiones}
 
-Este trabajo examinó, con un modelo de lenguaje pequeño en español, cómo
-cambia el texto generado cuando una parte o la totalidad de los datos de
-entrenamiento proviene de la generación anterior. Se completaron los 48
-ajustes previstos con tres proporciones sintéticas, cinco ciclos y tres
-repeticiones en Google Colab con una GPU T4, lo que muestra que el
-fenómeno puede estudiarse con recursos limitados y un protocolo documentado.
+\subsection{Respuesta a la pregunta principal}
 
-Cuando las continuaciones originales se reemplazaron por completo con
-texto sintético, el modelo se alejó progresivamente del texto humano: la
-perplejidad sobre referencias originales aumentó cerca de un 29\,\% en
-cinco ciclos, la diversidad léxica disminuyó y la repetición aumentó. Al
-conservar la mitad de los datos originales, la perplejidad aumentó menos
-del 5\,\% y se estabilizó después del primer ciclo, sin cambios claros en la
-diversidad léxica. Con datos originales no se observó deterioro. La
-dispersión semántica no mostró una reducción en ninguna condición.
+Con un GPT-2 pequeño en español, la diversidad del contenido generado
+cambió de forma distinta según la proporción de datos sintéticos. Cuando
+las continuaciones originales se reemplazaron por completo, la diversidad
+léxica disminuyó de manera progresiva a lo largo de los cinco ciclos
+(Distinct-2 bajó cerca de un 10\,\% y Distinct-3 un 5\,\%). Al conservar
+la mitad de los datos originales, los cambios fueron pequeños e
+inconsistentes, y con datos originales no se observaron cambios. La
+dispersión semántica, en cambio, no disminuyó en ninguna condición.
 
+\subsection{Respuestas a las preguntas secundarias}
+
+\begin{enumerate}
+    \item \textit{Generaciones.} Con reemplazo total, la diversidad léxica
+    disminuyó a partir del segundo ciclo y siguió bajando hasta el quinto.
+    La dispersión semántica no se redujo; aumentó ligeramente en todas las
+    condiciones.
+    \item \textit{Proporción.} El efecto aumentó con la proporción
+    sintética: nulo con \(\alpha=0\), moderado y estable con
+    \(\alpha=0.5\) y el mayor con \(\alpha=1\). Conservar la mitad de los
+    datos originales redujo considerablemente el deterioro.
+    \item \textit{Repetición.} Con \(\alpha=1\) la repetición media de
+    4-gramas pasó de 0.003 a 0.035 y aparecieron bucles de una misma
+    estructura, frases reiteradas y saltos de línea repetidos. Con
+    \(\alpha\le0.5\) la repetición no se distinguió del control.
+    \item \textit{Relación entre ambos factores.} El número de
+    generaciones amplificó el efecto solo bajo reemplazo total. Con la
+    mezcla intermedia el cambio se concentró en el primer ciclo y después
+    se estabilizó.
+    \item \textit{Indicadores de model collapse.} Los rasgos que
+    acompañaron el deterioro fueron el aumento sostenido de la perplejidad
+    sobre texto humano, la caída de Distinct-\(n\), el aumento de la
+    repetición y la aparición de continuaciones degeneradas o muy cortas.
+    La dispersión semántica no resultó un indicador útil en este diseño.
+\end{enumerate}
+
+\subsection{Cumplimiento de los objetivos}
+
+Se cumplieron los objetivos planteados dentro del alcance del
+experimento. Se compararon la diversidad léxica y semántica a través de
+cinco ciclos y tres proporciones, se evaluó la repetición dentro de los
+textos y se describió el efecto conjunto de ambos factores. La
+compatibilidad con el \textit{model collapse} se examinó considerando sus
+limitaciones. El cumplimiento es descriptivo: las métricas léxicas y
+semánticas proceden de un análisis complementario y la repetición entre
+textos solo se aproximó mediante la dispersión semántica.
+
+\subsection{Conclusión sobre la hipótesis}
+
+La hipótesis se apoya parcialmente. Bajo reemplazo total de los datos
+originales se observaron la disminución progresiva de la diversidad
+léxica y el aumento de la repetición que se esperaban, con efectos
+crecientes con las generaciones. No se apoya en la dimensión semántica
+medida ni en la mezcla intermedia, donde el efecto no fue progresivo.
 En conjunto, los resultados son compatibles con una etapa temprana de
-\textit{model collapse} bajo reemplazo total y sugieren que conservar datos
-originales reduce de forma importante el efecto. La hipótesis se apoya en
-la dimensión léxica y en la repetición, pero no en la semántica medida.
-Estas conclusiones se restringen a las condiciones del experimento.
+\textit{model collapse} bajo reemplazo total, dentro de las condiciones
+evaluadas.
 
-Como trabajo futuro se propone ampliar el número de ciclos y repeticiones,
-comparar estrategias de muestreo y políticas de acumulación, incorporar
-medidas de diversidad sintáctica y de pérdida de patrones raros, y definir
-desde el inicio un tratamiento de las salidas cortas que no invalide
-etapas completas.
+\subsection{Aportaciones del estudio}
+
+El estudio aporta una comparación controlada en español de tres
+proporciones sintéticas y cinco generaciones, con tres repeticiones
+independientes, ejecutada en Google Colab con una GPU T4 y documentada
+con detalle suficiente para repetirla. Los resultados muestran
+también que conservar una fracción fija de datos originales limita el
+deterioro y que una regla de evaluación demasiado estricta puede dejar
+sin medición a la mayoría de las etapas, algo que conviene prever en
+estudios similares.
+
+\subsection{Limitaciones y trabajo futuro}
+
+Las conclusiones se limitan a un modelo pequeño, un corpus enciclopédico,
+cinco ciclos y tres repeticiones, y al análisis descriptivo. Como trabajo
+futuro se propone ampliar el número de ciclos y repeticiones, evaluar
+otros modelos, tareas e idiomas, comparar estrategias de muestreo y
+políticas de acumulación, incorporar medidas de diversidad sintáctica y
+de pérdida de patrones raros, y definir desde el inicio un tratamiento de
+las salidas cortas que no invalide etapas completas.
 
 
 \clearpage
@@ -1447,5 +1582,58 @@ Ficha del codificador consultada el 9 de noviembre de 2026.
 \url{https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2}
 
 \end{thebibliography}
+
+\clearpage
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+
+\section{Configuración completa del experimento}
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l l}
+\hline
+Parámetro & Valor \\
+\hline
+Modelo base & \texttt{datificate/gpt2-small-spanish} (rev.\ \texttt{02e30923}) \\
+Corpus & \texttt{wikimedia/wikipedia}, \texttt{20231101.es} (rev.\ \texttt{b04c8d1c}) \\
+Codificador semántico & \texttt{paraphrase-multilingual-MiniLM-L12-v2} (rev.\ \texttt{e8f8c211}) \\
+Artículos recorridos & 2000 (prefijo en streaming) \\
+Semilla de partición y del estudio & 20261109 \\
+Ejemplos de entrenamiento / validación / prueba & 512 / 128 / 128 \\
+Tokens de contexto / objetivo & 64 / 128 \\
+Proporciones sintéticas \(\alpha\) & 0, 0.5 y 1 \\
+Ciclos y repeticiones & 5 ciclos, 3 repeticiones (48 ajustes) \\
+Optimizador & AdamW, \(2\times10^{-5}\), \(\beta=(0.9,\,0.999)\), \(\epsilon=10^{-8}\), decaimiento 0.01 \\
+Lote & efectivo 8 (microlotes de 2), 1 época, 64 actualizaciones \\
+Recorte de gradiente & norma 1.0, float32, sin \textit{scheduler} \\
+Generación & temperatura 1.0, \textit{top-p} 0.95, 128 tokens sin IDs especiales \\
+Longitud léxica \(W\) & máximo 32; valor fijado con validación: 30 \\
+Límite del codificador & 128 \textit{wordpieces} \\
+Entorno & Colab, Tesla T4, CUDA 13.0, Python 3.13.16, PyTorch 2.14.1, Transformers 5.22.2 \\
+\hline
+\end{tabular}}
+\caption{Configuración congelada en el protocolo del estudio principal.}
+\label{tab:configuracion}
+\end{table}
+
+Los contextos de entrada son los primeros 64 tokens de una ventana
+seleccionada al azar, con semilla fija, en cada artículo de Wikipedia;
+no se utilizaron instrucciones. Los identificadores de los artículos y las ventanas exactas se
+registraron para poder reconstruir el corpus.
+
+\section{Tablas completas de resultados}
+
+Las tablas siguientes presentan, por ciclo y proporción, las métricas
+del análisis complementario. La tabla de perplejidad se presentó en la
+sección de resultados.
+
+\input{resultados_generados/tabla_medias_distinct_2.tex}
+\input{resultados_generados/tabla_medias_distinct_3.tex}
+\input{resultados_generados/tabla_medias_repeat_4_mean.tex}
+\input{resultados_generados/tabla_medias_semantic_dispersion.tex}
+
 
 \end{document}
