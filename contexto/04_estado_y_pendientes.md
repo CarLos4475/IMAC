@@ -61,3 +61,6 @@ Mover un pendiente a realizado solo con evidencia concreta. Registrar fecha, arc
 
 ## Paquete para el equipo (10 de noviembre de 2026)
 Se creó `Paquete_companeros/` (y `Paquete_companeros.zip`) con reglas y cifras, prompts para LLM, contexto completo en un solo archivo, artículo, resultados, código y contexto del proyecto, para que el equipo humanice el texto sin alterar cifras ni advertencias.
+
+## Presentación (18 de noviembre de 2026)
+`Presentacion/index.html` contiene la presentación de 19 diapositivas para la exposición de 20 minutos (Sakura Chroma, HTML de un archivo, gráficas recreadas con los datos reales). `vercel.json` en la raíz apunta a `Presentacion/` como salida estática. El guion de exposición con marcas por diapositiva vive en un documento aparte de Claude.

@@ -12,3 +12,6 @@ __pycache__/
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+
+# Salidas de la app
+Claude outputs/

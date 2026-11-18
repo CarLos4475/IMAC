@@ -1,0 +1,622 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exposición IMAC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600;700&family=Big+Shoulders+Display:wght@700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@700&display=swap">
+<style>
+/* === DESIGN PLAN ===
+   Concept: vintage Japanese cassette-package look (Sakura Chroma): cream paper, ink-brown rules,
+   diagonal rainbow ribbons, square corners, spec checkboxes, hard offset shadows.
+   Fixed 1920x1080 stage scaled as a whole (frontend-slides approach). */
+:root{
+  --paper:#F1E6CB; --paper-dk:#E5D6B0; --ink:#3A2516;
+  --red:#E5392A; --pink:#E54489; --orange:#F09131; --yellow:#F0BC2A; --green:#3D9F47; --blue:#3F8BC4;
+  --stage-bg:#1d130b; --slide-bg:#F1E6CB;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --body:'Albert Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --jp:'Noto Sans JP',sans-serif;
+}
+/* === VIEWPORT BASE === */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg)}
+body{color:var(--ink);font-family:var(--body)}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg)}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg)}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--paper);transition:opacity .28s ease,visibility .28s}
+.slide.active{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}}
+/* === GRAIN === */
+.grain{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.16;background-image:radial-gradient(circle at 2px 2px,var(--ink) .75px,transparent 1.1px);background-size:4px 4px}
+/* === CHROME === */
+.top{position:absolute;left:72px;right:72px;top:36px;height:46px;border-bottom:1.5px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-start;font:700 22px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.top .who{background:var(--ink);color:var(--paper);padding:6px 16px 7px}
+.pg{position:absolute;right:62px;bottom:34px;z-index:60;background:var(--paper);padding:6px 10px;font:700 24px/1 var(--mono);letter-spacing:.08em}
+.al{text-transform:none}
+.s5 .card .nm{font-size:60px}.s5 .card .ds{font-size:31px}.s5 .card .sp{font-size:27px}
+.s10 .card .ds{font-size:33px}.s10 .card .nm{font-size:64px}
+.s16 .ledger td.v{font-size:40px}.s16 .ledger td.m{font-size:44px}.s16 .ledger td{padding:30px 18px}.s16 .ledger th{font-size:23px}
+.s17 .card .ds{font-size:33px}
+.s18 .sm{font-size:38px}
+.hint{position:absolute;left:72px;bottom:42px;font:400 18px/1 var(--mono);letter-spacing:.14em;opacity:.55;text-transform:uppercase}
+.content{position:absolute;left:72px;right:72px;top:118px;bottom:108px}
+/* === TYPE === */
+h1,h2{margin:0;font:900 112px/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase}
+h2{font-size:92px}
+.lab{font:700 22px/1.2 var(--body);letter-spacing:.24em;text-transform:uppercase}
+p{margin:0;font:400 38px/1.34 var(--body)}
+.sm{font-size:30px}
+b,.em{font-weight:700}
+.r{color:var(--red)}.bl{color:var(--blue)}.or{color:var(--orange)}.gr{color:var(--green)}.pk{color:var(--pink)}
+.mono{font-family:var(--mono)}
+/* === COMPONENTS === */
+.card{border:1.5px solid var(--ink);background:var(--paper);position:relative}
+.card .strip{height:16px;background:var(--red)}
+.card .in{padding:22px 28px 26px}
+.card .nm{font:900 56px/.98 var(--display);text-transform:uppercase;letter-spacing:-.01em}
+.card .ds{font:400 29px/1.32 var(--body);margin-top:12px}
+.card .sp{border-top:1.5px dashed var(--ink);margin-top:18px;padding-top:14px;font:400 23px/1.7 var(--mono)}
+.card .sp div{display:flex;justify-content:space-between;gap:20px}
+.quote{border:1.5px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 var(--ink);padding:34px 42px}
+.stamp{display:inline-block;background:var(--red);color:var(--paper);font:900 44px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;padding:12px 26px 10px;transform:rotate(-3deg)}
+.chip{display:inline-block;font:700 22px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:8px 14px 9px;background:var(--paper)}
+.chip.k{background:var(--ink);color:var(--paper)}
+.chk{display:inline-block;width:30px;height:30px;border:1.5px solid var(--ink);flex:none;position:relative;vertical-align:middle}
+.chk.on{background:var(--ink)}
+.chk.on::after{content:'×';position:absolute;inset:0;display:grid;place-items:center;color:var(--paper);font:700 28px/1 var(--mono)}
+.rosette{position:absolute;width:250px;height:250px;background:var(--ink);display:grid;place-items:center;text-align:center;color:var(--paper);font:900 46px/.95 var(--display);text-transform:uppercase;z-index:3}
+.rosette small{display:block;font:700 15px/1.2 var(--mono);letter-spacing:.14em;margin-top:8px}
+.ribbons{position:absolute;width:2600px;transform-origin:0 0;z-index:1}
+.ribbons i{display:block;height:38px}
+.petals{position:absolute;pointer-events:none}
+.petals i{position:absolute;border-radius:50%;mix-blend-mode:multiply;opacity:.92}
+.row{display:flex;gap:28px}.col{display:flex;flex-direction:column;gap:22px}
+.abs{position:absolute}
+.note{font:400 22px/1.4 var(--mono);letter-spacing:.04em;opacity:.8}
+.big{font:900 150px/.88 var(--display);letter-spacing:-.02em}
+svg text{font-family:var(--mono)}
+.tiles{display:flex;gap:6px}.tiles i{display:block;width:34px;height:52px;border:1.5px solid var(--ink)}
+.ledger{width:100%;border-collapse:collapse}
+.ledger th{font:700 20px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;text-align:left;padding:0 18px 14px;border-bottom:1.5px solid var(--ink)}
+.ledger td{padding:18px 18px;border-bottom:1.5px solid var(--ink);vertical-align:middle}
+.ledger td.n{font:900 52px/1 var(--display);text-transform:uppercase}
+.ledger td.v{font:400 31px/1.3 var(--body)}
+.ledger td.m{font:700 30px/1 var(--mono)}
+.ledger td.hl{background:rgba(229,57,42,.14)}
+</style>
+
+</head><body><div class="deck-viewport"><div class="deck-stage" id="stage">
+
+<!-- ========== 01 PORTADA ========== -->
+<section class="slide" data-tag="Portada" data-who="Carlos">
+  <div class="ribbons" style="left:1180px;top:1000px;transform:rotate(-22deg)"><i style="background:var(--red)"></i><i style="background:var(--orange)"></i><i style="background:var(--yellow)"></i><i style="background:var(--green)"></i><i style="background:var(--blue)"></i></div>
+  <div class="petals" data-s="360" style="left:1480px;top:130px"></div>
+  <div class="content" style="top:150px">
+    <div class="lab" style="margin-bottom:34px">Investigación en Matemáticas Aplicadas y Computación · FES Acatlán, UNAM</div>
+    <h1 style="font-size:150px;max-width:1380px">Contenido sintético <span class="r">en Internet</span> y degradación de modelos de lenguaje</h1>
+    <p class="sm" style="margin-top:52px;max-width:1100px">Carlos Emiliano Segura Loera<br>Valeria Hernandez Santos<br>Nehiel Ramirez Hernandez</p>
+    <p class="sm mono" style="margin-top:26px;font-size:24px;letter-spacing:.06em">Profesor: Sergio Quiroz Almaraz · Noviembre 2026</p>
+  </div>
+  <div class="rosette" data-star style="left:1500px;top:560px;transform:rotate(-8deg)"><div>Exposición<small>20 MIN · 3 VOCES</small></div></div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 02 LA COPIA DE LA COPIA ========== -->
+<section class="slide" data-tag="El problema" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <h1>La copia de la copia</h1>
+    <div class="row" id="sheets" style="margin-top:56px;align-items:flex-end;gap:54px"></div>
+    <p style="margin-top:44px;max-width:1500px">Cada copia pierde un poco de detalle. <span class="em">¿Les pasa lo mismo a los modelos que aprenden de texto escrito por otros modelos?</span></p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 03 QUÉ SE SABE ========== -->
+<section class="slide" data-tag="El problema" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <h1>¿Qué se sabe?</h1>
+    <div class="row" style="margin-top:36px;align-items:center;gap:18px">
+      <span class="chip k">Personas escriben</span><span class="mono" style="font-size:34px">→</span>
+      <span class="chip k">Modelos aprenden</span><span class="mono" style="font-size:34px">→</span>
+      <span class="chip" style="background:var(--yellow)">Modelos escriben</span><span class="mono" style="font-size:34px">→</span>
+      <span class="chip" style="background:var(--yellow)">Otros modelos aprenden de ellos</span>
+    </div>
+    <div class="row" style="margin-top:52px;gap:56px">
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--red)"></div><div class="in">
+        <div class="lab">Shumailov y colaboradores · Nature, 2024</div>
+        <div class="nm" style="margin-top:14px">Se pierde lo menos común</div>
+        <div class="ds">Al entrenar con texto de modelos anteriores, los modelos fueron perdiendo palabras e ideas poco frecuentes. Sus textos se parecían cada vez más entre sí.</div>
+      </div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--blue)"></div><div class="in">
+        <div class="lab">Kazdan y colaboradores · 2025</div>
+        <div class="nm" style="margin-top:14px">Depende de cómo se mezcla</div>
+        <div class="ds">Si se reemplazan los datos originales aparece el colapso. Si se conservan, la pérdida medida se mantiene estable.</div>
+      </div></div>
+    </div>
+    <p style="margin-top:46px"><span class="em">Haber texto sintético no basta para predecir el resultado.</span> Lo probamos nosotros, a escala pequeña y en español.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 04 PREGUNTA E HIPÓTESIS ========== -->
+<section class="slide" data-tag="Pregunta e hipótesis" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <div class="row" style="gap:60px;align-items:stretch">
+      <div class="quote" style="flex:1.15"><div class="lab r">Pregunta principal</div>
+        <p style="font:700 58px/1.12 var(--body);margin-top:20px">¿Cómo cambia la <span class="r">diversidad</span> del texto que genera un modelo cuando se le entrena una y otra vez con datos sintéticos?</p></div>
+      <div class="quote" style="flex:1;background:var(--paper-dk)"><div class="lab bl">Hipótesis</div>
+        <p style="font:600 44px/1.2 var(--body);margin-top:20px">Con más texto sintético y más ciclos, la diversidad <span class="r em">baja</span> y la repetición <span class="r em">sube</span>.</p>
+        <p class="sm" style="margin-top:18px">Es una respuesta que ponemos a prueba. Puede salir mal.</p></div>
+    </div>
+    <div class="lab" style="margin-top:60px">Lo que miramos</div>
+    <div class="row" style="margin-top:22px;gap:22px">
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--blue)"></div><div class="in"><div class="nm" style="font-size:46px">Vocabulario</div><div class="ds" style="font-size:26px">¿Qué tan variado es?</div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--red)"></div><div class="in"><div class="nm" style="font-size:46px">Repetición</div><div class="ds" style="font-size:26px">¿Cuánto repite frases?</div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--green)"></div><div class="in"><div class="nm" style="font-size:46px">Ideas</div><div class="ds" style="font-size:26px">¿Qué tan variados son los temas?</div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--orange)"></div><div class="in"><div class="nm" style="font-size:46px">Texto humano</div><div class="ds" style="font-size:26px">¿Lo sigue entendiendo?</div></div></div>
+    </div>
+    <p class="sm" style="margin-top:34px;opacity:.85">Como una banda que ensaya solo con grabaciones propias: cada canción suena bien, pero el repertorio se encoge.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 05 MODELO Y DATOS ========== -->
+<section class="slide s5" data-tag="Diseño del experimento" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <h1>Qué usamos</h1>
+    <div class="row" style="margin-top:50px;gap:40px;align-items:stretch">
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--blue)"></div><div class="in">
+        <div class="lab">Modelo</div><div class="nm" style="margin-top:12px">GPT-2 pequeño en español</div>
+        <div class="ds">Un modelo de lenguaje ya entrenado. Chico, pero permite repetir todo muchas veces en una sola computadora.</div>
+        <div class="sp"><div><span>PARÁMETROS</span><b>124 millones</b></div><div><span>CÓMPUTO</span><b>Colab · GPU T4</b></div></div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--green)"></div><div class="in">
+        <div class="lab">Texto humano</div><div class="nm" style="margin-top:12px">Wikipedia en español</div>
+        <div class="ds">Texto escrito por personas, de acceso libre. Es un solo tipo de texto, y eso limita lo que podemos concluir.</div>
+        <div class="sp"><div><span>ARTÍCULOS</span><b>2,000</b></div><div><span>IDIOMA</span><b>Español</b></div></div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--orange)"></div><div class="in">
+        <div class="lab">Tres grupos de ejemplos</div><div class="nm" style="margin-top:12px">Entrenar, vigilar, probar</div>
+        <div class="ds">Los de prueba son un examen sorpresa: el modelo nunca los ve mientras aprende.</div>
+        <div class="sp"><div><span>ENTRENAR</span><b>512</b></div><div><span>VIGILAR</span><b>128</b></div><div><span>PRUEBA</span><b>128</b></div></div></div></div>
+    </div>
+    <div class="lab" style="margin-top:30px">768 ejemplos de Wikipedia, repartidos así</div>
+    <div style="display:flex;margin-top:16px;height:62px;border:1.5px solid var(--ink)">
+      <div style="flex:512;background:var(--orange);display:grid;place-items:center;font:700 28px var(--mono);letter-spacing:.08em;border-right:1.5px solid var(--ink)">ENTRENAR · 512</div>
+      <div style="flex:128;background:var(--yellow);display:grid;place-items:center;font:700 28px var(--mono);letter-spacing:.04em;border-right:1.5px solid var(--ink)">VIGILAR · 128</div>
+      <div style="flex:128;background:var(--blue);color:var(--paper);display:grid;place-items:center;font:700 28px var(--mono);letter-spacing:.04em">PRUEBA · 128</div>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 06 EL CICLO ========== -->
+<section class="slide" data-tag="Diseño del experimento" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <h2 style="position:absolute;left:0;top:0">El ciclo, cinco veces</h2>
+    <svg class="abs" style="left:0;top:0" width="1776" height="854" viewBox="0 0 1776 854" fill="none">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3A2516"/></marker></defs>
+      <g stroke="#3A2516" stroke-width="3.5" marker-end="url(#ar)">
+        <path d="M440 400H668"/><path d="M1108 400H1336"/><path d="M1556 200V288"/>
+        <path d="M1556 512V690H1108"/><path d="M668 690H220V512"/>
+      </g>
+    </svg>
+    <div class="card abs" style="left:1336px;top:100px;width:440px"><div class="strip" style="background:var(--green)"></div><div class="in"><div class="nm" style="font-size:48px">Texto humano</div><div class="ds" style="font-size:25px;margin-top:6px">Wikipedia en español</div></div></div>
+    <div class="card abs" style="left:0;top:288px;width:440px"><div class="strip" style="background:var(--blue)"></div><div class="in"><div class="nm" style="font-size:48px">Modelo actual</div><div class="ds" style="font-size:25px;margin-top:6px">recibe el inicio de textos</div></div></div>
+    <div class="card abs" style="left:668px;top:288px;width:440px"><div class="strip" style="background:var(--orange)"></div><div class="in"><div class="nm" style="font-size:42px">Escribe continuaciones</div><div class="ds" style="font-size:25px;margin-top:6px">texto sintético</div></div></div>
+    <div class="card abs" style="left:1336px;top:288px;width:440px;background:#F8E3A6"><div class="strip" style="background:var(--pink)"></div><div class="in"><div class="nm" style="font-size:42px">Mezcla según <span class="pk">α</span></div><div class="ds" style="font-size:25px;margin-top:6px">α sintético, el resto humano</div></div></div>
+    <div class="card abs" style="left:668px;top:578px;width:440px"><div class="strip" style="background:var(--red)"></div><div class="in"><div class="nm" style="font-size:42px">Entrena un modelo nuevo</div><div class="ds" style="font-size:25px;margin-top:6px">desde el mismo modelo de partida</div></div></div>
+    <div class="abs" style="left:300px;top:560px"><span class="stamp">×5 ciclos</span></div>
+    <p class="abs sm" style="left:0;top:730px;width:560px;font-size:28px">Lo único que cambia entre generaciones son los datos.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 07 ALFA Y 48 ENTRENAMIENTOS ========== -->
+<section class="slide" data-tag="Diseño del experimento" data-who="Carlos">
+  <div class="top"></div>
+  <div class="content">
+    <div class="row" style="gap:70px">
+      <div style="width:820px">
+        <h2>Alfa: cuánta «agua»</h2>
+        <div class="col" style="margin-top:36px;gap:20px" id="alphaCards"></div>
+        <p class="sm" style="margin-top:22px">Como una receta: leche entera, leche con la mitad de agua o puro agua con color.</p>
+      </div>
+      <div style="flex:1">
+        <h2>48 entrenamientos</h2>
+        <div id="grid48" style="margin-top:36px"></div>
+        <p class="mono" style="margin-top:26px;font-size:25px;line-height:1.55;letter-spacing:.02em">3 proporciones × 5 ciclos × 3 repeticiones = 45<br>+ 3 modelos de partida = <b>48</b> · ≈ 2.8 h de cómputo</p>
+      </div>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 08 CUATRO FORMAS DE MEDIR ========== -->
+<section class="slide" data-tag="Métricas" data-who="Valeria">
+  <div class="top"></div>
+  <div class="content">
+    <h1>Cuatro formas de medir</h1>
+    <p class="sm" style="margin-top:14px">Como un médico: presión, temperatura, pulso y azúcar. Ninguno basta solo.</p>
+    <table class="ledger" style="margin-top:34px">
+      <tr><th style="width:410px">Métrica</th><th>Se parece a…</th><th style="width:190px">Mejor</th><th style="width:300px">Si hay deterioro</th></tr>
+      <tr><td class="n">Perplejidad</td><td class="v">Entre cuántas opciones duda el modelo al adivinar la siguiente palabra</td><td class="m"><span class="chip">Menor</span></td><td class="m"><span class="chip k">Sube ▲</span></td></tr>
+      <tr><td class="n">Distinct-2 y 3</td><td class="v">Cuántas expresiones distintas usa alguien al hablar</td><td class="m"><span class="chip">Mayor</span></td><td class="m"><span class="chip k">Baja ▼</span></td></tr>
+      <tr><td class="n">Repetición</td><td class="v">El disco rayado: grupos de cuatro palabras que ya aparecieron</td><td class="m"><span class="chip">Menor</span></td><td class="m"><span class="chip k">Sube ▲</span></td></tr>
+      <tr><td class="n">Dispersión semántica</td><td class="v">Dardos repartidos por todo el tablero, no en el centro</td><td class="m"><span class="chip">Mayor</span></td><td class="m"><span class="chip k">Baja ▼</span></td></tr>
+    </table>
+    <p class="note" style="margin-top:22px">Ninguna mide si el texto es bueno o verdadero. Diversidad alta no significa buen texto.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 09 PERPLEJIDAD ========== -->
+<section class="slide" data-tag="Métricas" data-who="Valeria">
+  <div class="top"></div>
+  <div class="content">
+    <h1>Perplejidad</h1>
+    <p style="margin-top:12px;max-width:1500px">¿Qué tan <span class="em">sorprendido</span> queda el modelo al leer texto humano real?</p>
+    <div class="row" style="margin-top:44px;gap:60px">
+      <div class="quote" style="flex:1"><div class="lab gr">Poca perplejidad · modelo seguro</div>
+        <p class="mono sm" style="margin:16px 0 18px;font-size:27px">«La capital de México es ___»</p><div id="optLow"></div></div>
+      <div class="quote" style="flex:1;background:var(--paper-dk)"><div class="lab r">Mucha perplejidad · modelo confundido</div>
+        <p class="mono sm" style="margin:16px 0 18px;font-size:27px">«La capital de México es ___»</p><div id="optHigh"></div></div>
+    </div>
+    <p style="margin-top:44px">Es, a grandes rasgos, <span class="em">entre cuántas opciones duda</span>. Menor es mejor. Si el modelo se aleja de cómo escribimos las personas, se sorprende más al leernos.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 10 DISTINCT Y REPETICIÓN ========== -->
+<section class="slide s10" data-tag="Métricas" data-who="Valeria">
+  <div class="top"></div>
+  <div class="content">
+    <h2>Variedad de frases y repetición</h2>
+    <div class="row" style="margin-top:36px;gap:56px">
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--blue)"></div><div class="in">
+        <div class="lab">Distinct-2 y Distinct-3</div>
+        <div class="nm" style="margin-top:10px">Pares y tríos distintos</div>
+        <div class="ds">De cien pares de palabras seguidas, ¿cuántos son diferentes? Si 90 lo son, vale 0.9.</div>
+        <div id="pairs" style="display:grid;grid-template-columns:repeat(20,1fr);gap:6px;margin-top:30px"></div>
+        <div class="sp"><div><span>■ distinto</span><span>□ ya había aparecido</span></div><div><span>Mayor es mejor</span><b>18 de 20 = 0.9</b></div></div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--red)"></div><div class="in">
+        <div class="lab">Repetición de cuatro palabras</div>
+        <div class="nm" style="margin-top:10px">El disco rayado</div>
+        <div class="ds">Dentro de un mismo texto, ¿qué proporción de grupos de cuatro palabras ya había aparecido?</div>
+        <p class="mono" style="font-size:36px;line-height:1.75;margin-top:30px;background:var(--paper-dk);padding:24px 26px">el resultado <span style="background:var(--red);color:var(--paper);padding:0 6px">del resultado del</span> resultado <span style="background:var(--red);color:var(--paper);padding:0 6px">del resultado del</span> resultado</p>
+        <div class="sp"><div><span>Menor es mejor</span><b>señal típica de dar vueltas</b></div></div></div></div>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 11 DISPERSIÓN SEMÁNTICA ========== -->
+<section class="slide" data-tag="Métricas" data-who="Valeria">
+  <div class="top"></div>
+  <div class="content">
+    <h2>Dispersión semántica</h2>
+    <p style="margin-top:10px;max-width:1550px" class="sm">Un programa auxiliar convierte cada texto en un punto de un mapa de significados. Textos sobre cosas parecidas quedan cerca. Medimos qué tan separados están.</p>
+    <div class="row" style="margin-top:26px;gap:60px">
+      <div class="quote" style="flex:1;text-align:center"><div class="lab gr">Alta · ideas variadas</div><div id="dartHigh" style="margin-top:6px"></div></div>
+      <div class="quote" style="flex:1;text-align:center;background:var(--paper-dk)"><div class="lab r">Baja · ideas parecidas</div><div id="dartLow" style="margin-top:6px"></div></div>
+    </div>
+    <p class="sm" style="margin-top:30px">Si el modelo colapsara en lo que dice, los puntos se juntarían y la dispersión bajaría.</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 12 CÓMO LEER LA GRÁFICA ========== -->
+<section class="slide" data-tag="Cómo leer los resultados" data-who="Valeria">
+  <div class="top"></div>
+  <div class="content">
+    <h2>Cómo leer la gráfica</h2>
+    <div class="row" style="margin-top:30px;gap:56px">
+      <div style="width:1000px">
+        <div class="quote" style="padding:22px 22px 14px">
+          <svg viewBox="0 0 940 580" width="940" height="580">
+            <g stroke="#E5D6B0" stroke-width="2"><path d="M110 70H770M110 190H770M110 310H770M110 430H770"/></g>
+            <path d="M110 40V500H780" stroke="#3A2516" stroke-width="3" fill="none"/>
+            <path d="M110 330H760" stroke="#3F8BC4" stroke-width="7" fill="none"/>
+            <path d="M110 330L240 282L370 264L500 258L630 256L760 254" stroke="#F09131" stroke-width="7" fill="none"/>
+            <path d="M110 330L240 280L370 225L500 170L630 120L760 70" stroke="#E5392A" stroke-width="7" fill="none"/>
+            <circle cx="110" cy="330" r="14" fill="#3A2516"/>
+            <g font-size="22" text-anchor="middle" fill="#3A2516"><text x="110" y="540" font-weight="700">M0</text><text x="240" y="540">1</text><text x="370" y="540">2</text><text x="500" y="540">3</text><text x="630" y="540">4</text><text x="760" y="540">5</text></g>
+            <text x="435" y="572" font-size="20" text-anchor="middle" fill="#3A2516" letter-spacing="3">CICLO</text>
+            <text x="782" y="336" font-size="24" fill="#3F8BC4" font-weight="700">α = 0</text>
+            <text x="782" y="262" font-size="24" fill="#F09131" font-weight="700">α = 0.5</text>
+            <text x="782" y="76" font-size="24" fill="#E5392A" font-weight="700">α = 1</text>
+            <text x="126" y="30" font-size="21" fill="#3A2516" font-weight="700">MÉTRICA ↑</text>
+          </svg>
+        </div>
+        <div style="margin-top:20px"><span class="stamp" style="font-size:34px;transform:rotate(-2deg)">Esquema ilustrativo · no son datos</span></div>
+      </div>
+      <div class="col" style="flex:1;gap:28px">
+        <div class="row" style="align-items:flex-start;gap:20px"><i class="chk on" style="margin-top:8px"></i><p class="sm"><b>Horizontal:</b> los ciclos, del 1 al 5, desde el punto de partida M0.</p></div>
+        <div class="row" style="align-items:flex-start;gap:20px"><i class="chk on" style="margin-top:8px"></i><p class="sm"><b>Una línea por α:</b> es el promedio de las tres repeticiones.</p></div>
+        <div class="row" style="align-items:flex-start;gap:20px"><i class="chk on" style="margin-top:8px"></i><p class="sm"><b>La línea de α = 0 es el control.</b> Es como el grupo que recibe pastilla de azúcar: sin él no se sabe qué efecto es del medicamento.</p></div>
+        <div class="row" style="align-items:flex-start;gap:20px"><i class="chk on" style="margin-top:8px"></i><p class="sm"><b>Si la hipótesis se cumple,</b> la línea de α = 1 se separa del control ciclo tras ciclo.</p></div>
+        <div class="quote" style="padding:20px 26px;box-shadow:6px 6px 0 var(--ink)"><p class="sm" style="font-size:27px">Con tres repeticiones solo <b>describimos</b>: promedios, rango y dirección. Sin pruebas de significación.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 13 RESULTADO: PERPLEJIDAD ========== -->
+<section class="slide" data-tag="Resultados" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="content">
+    <h2>El modelo queda más confundido</h2>
+    <div class="row" style="margin-top:12px;gap:40px">
+      <div class="quote" style="padding:16px 16px 10px;width:1160px"><div id="chPpl"></div></div>
+      <div class="col" style="flex:1;gap:22px">
+        <div><div class="big r">+29 %</div><p class="sm" style="margin-top:6px"><b class="r">α = 1</b>: de 30.46 a 39.30. Sube en cada ciclo, en las tres cadenas.</p></div>
+        <div><div class="big or" style="font-size:110px">+4.7 %</div><p class="sm" style="margin-top:6px"><b class="or">α = 0.5</b>: 31.90. Se estabiliza desde el ciclo 1 o 2.</p></div>
+        <div><div class="big bl" style="font-size:110px">30.47</div><p class="sm" style="margin-top:6px"><b class="bl">α = 0</b>: el control no se mueve.</p></div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">PERPLEJIDAD · 128 TEXTOS DE PRUEBA · LÍNEA = MEDIA DE 3 REPETICIONES · BARRA = MÍNIMO Y MÁXIMO · MENOR ES MEJOR</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 14 RESULTADO: VARIEDAD Y REPETICIÓN ========== -->
+<section class="slide" data-tag="Resultados" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="content">
+    <h2>Menos variedad, más repetición</h2>
+    <div class="row" style="margin-top:14px;gap:26px">
+      <div class="quote" style="flex:1;padding:14px 14px 8px"><div class="lab" style="font-size:19px">Distinct-2 · mayor es mejor</div><div id="chD2"></div><div class="mono" style="font-size:26px;font-weight:700"><span class="gr">0.913</span> → <span class="r">0.825</span></div></div>
+      <div class="quote" style="flex:1;padding:14px 14px 8px"><div class="lab" style="font-size:19px">Distinct-3 · mayor es mejor</div><div id="chD3"></div><div class="mono" style="font-size:26px;font-weight:700"><span class="gr">0.990</span> → <span class="r">0.940</span></div></div>
+      <div class="quote" style="flex:1;padding:14px 14px 8px"><div class="lab" style="font-size:19px">Repetición de 4 · menor es mejor</div><div id="chRep"></div><div class="mono" style="font-size:26px;font-weight:700"><span class="gr">0.3 %</span> → <span class="r">3.5 %</span></div></div>
+    </div>
+    <p class="sm" style="margin-top:22px"><b class="r">α = 1</b> frente al punto de partida M0. Con α = 0.5 los cambios son pequeños, y el control casi no se mueve.</p>
+    <p class="note" style="margin-top:8px">90 TEXTOS · ANÁLISIS COMPLEMENTARIO · LÍNEA = MEDIA DE 3 REPETICIONES · BARRA = MÍNIMO Y MÁXIMO</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 15 RESULTADO: SEMÁNTICA ========== -->
+<section class="slide" data-tag="Resultados" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="content">
+    <h2>La variedad de ideas no bajó</h2>
+    <div class="row" style="margin-top:12px;gap:40px">
+      <div class="quote" style="padding:16px 16px 10px;width:1160px"><div id="chSem"></div></div>
+      <div class="col" style="flex:1;gap:22px">
+        <div><div class="big gr" style="font-size:96px;white-space:nowrap">0.883 → 0.903</div><p class="sm" style="margin-top:8px">Dispersión semántica con <b>α = 1</b>. Subió un poco, y también subió en las otras condiciones.</p></div>
+        <div class="quote" style="padding:20px 26px;box-shadow:6px 6px 0 var(--ink)"><p class="sm" style="font-size:28px">Usa menos combinaciones de palabras y repite más, pero sus textos <b>no se parecen más entre sí</b> en significado.</p></div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">DISPERSIÓN SEMÁNTICA · 90 TEXTOS · LÍNEA = MEDIA DE 3 REPETICIONES · BARRA = MÍNIMO Y MÁXIMO · MAYOR = MÁS VARIEDAD DE IDEAS</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 16 TABLA DEL CICLO 5 ========== -->
+<section class="slide s16" data-tag="Resultados" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="content">
+    <h2>Ciclo 5 en una tabla</h2>
+    <table class="ledger" style="margin-top:36px">
+      <tr><th style="width:560px">Métrica</th><th>Punto de partida (M0)</th><th>α = 0</th><th>α = 0.5</th><th>α = 1</th></tr>
+      <tr><td class="v">Perplejidad <span class="note">128 textos</span></td><td class="m">30.46</td><td class="m">30.47</td><td class="m">31.90</td><td class="m hl">39.30</td></tr>
+      <tr><td class="v">Distinct-2 <span class="note">90 textos</span></td><td class="m">0.913</td><td class="m">0.905</td><td class="m">0.896</td><td class="m hl">0.825</td></tr>
+      <tr><td class="v">Distinct-3 <span class="note">90 textos</span></td><td class="m">0.990</td><td class="m">0.985</td><td class="m">0.984</td><td class="m hl">0.940</td></tr>
+      <tr><td class="v">Repetición de 4 palabras <span class="note">90 textos</span></td><td class="m">0.003</td><td class="m">0.004</td><td class="m">0.005</td><td class="m hl">0.035</td></tr>
+      <tr><td class="v">Dispersión semántica <span class="note">90 textos</span></td><td class="m">0.883</td><td class="m">0.890</td><td class="m">0.898</td><td class="m hl">0.903</td></tr>
+    </table>
+    <p class="note" style="margin-top:24px">MEDIA DE 3 CADENAS EN EL CICLO 5 · ANÁLISIS DESCRIPTIVO, SIN PRUEBAS DE SIGNIFICACIÓN</p>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 17 LO QUE FALTÓ ========== -->
+<section class="slide s17" data-tag="Lo que falló" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="ribbons" style="left:1250px;top:1200px;transform:rotate(-22deg);opacity:.9"><i style="background:var(--red)"></i><i style="background:var(--orange)"></i><i style="background:var(--yellow)"></i><i style="background:var(--green)"></i><i style="background:var(--blue)"></i></div>
+  <div class="content">
+    <h2>Por qué 90 textos y no 128</h2>
+    <div class="row" style="margin-top:40px;gap:34px">
+      <div class="card" style="flex:1"><div class="strip"></div><div class="in"><div class="big r" style="font-size:160px">39<small style="font-size:60px"> de 48</small></div><div class="ds">etapas quedaron sin métricas de vocabulario y significado</div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--orange)"></div><div class="in"><div class="big or" style="font-size:160px">75<small style="font-size:46px"> de 6,144</small></div><div class="ds">textos tenían menos de 30 palabras, muchos solo saltos de línea o símbolos</div></div></div>
+      <div class="card" style="flex:1"><div class="strip" style="background:var(--blue)"></div><div class="in"><div class="big bl" style="font-size:160px">90</div><div class="ds">textos de prueba sí llegan a 30 palabras en las 48 etapas. Con ellos recalculamos todo.</div></div></div>
+    </div>
+    <div class="row" style="margin-top:40px;gap:40px;align-items:center">
+      <span class="stamp">Post hoc</span>
+      <p style="max-width:1300px;font-size:38px">Lo decidimos <b>después</b> de ver que faltaban datos, y lo declaramos. Deja fuera 38 textos, probablemente los más dañados, así que el deterioro real podría ser mayor. La perplejidad sí usa los 128.</p>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 18 LIMITACIONES Y CONCLUSIÓN ========== -->
+<section class="slide s18" data-tag="Conclusión" data-who="Nehiel">
+  <div class="top"></div>
+  <div class="content">
+    <div class="row" style="gap:64px">
+      <div style="width:760px">
+        <h2>Lo que no afirmamos</h2>
+        <div class="col" style="margin-top:34px;gap:18px">
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">Un modelo pequeño</p></div>
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">Un idioma y un corpus</p></div>
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">Solo cinco ciclos</p></div>
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">Análisis descriptivo</p></div>
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">Sin acumular generaciones</p></div>
+          <div class="row" style="gap:18px;align-items:center"><i class="chk on"></i><p class="sm">No mide calidad ni verdad</p></div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="quote" style="background:#F8E3A6"><div class="lab r">Conclusión</div>
+          <h2 style="margin-top:12px;font-size:84px">Hipótesis apoyada <span class="r">parcialmente</span></h2>
+          <div class="col" style="margin-top:26px;gap:16px">
+            <p class="sm"><b class="r">α = 1:</b> baja la variedad de palabras, sube la repetición y el modelo entiende peor el texto humano. Y empeora con los ciclos.</p>
+            <p class="sm"><b class="gr">Ideas:</b> la variedad semántica no bajó.</p>
+            <p class="sm"><b class="or">α = 0.5:</b> el efecto se estabiliza.</p>
+          </div>
+        </div>
+        <p class="sm" style="margin-top:30px">Compatible con <b>una etapa temprana</b> de <i style="font-style:normal" class="em">model collapse</i> con reemplazo total. No es un colapso completo.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+<!-- ========== 19 CIERRE ========== -->
+<section class="slide" data-tag="Cierre" data-who="Nehiel">
+  <div class="ribbons" style="left:1180px;top:1060px;transform:rotate(-22deg)"><i style="background:var(--red)"></i><i style="background:var(--orange)"></i><i style="background:var(--yellow)"></i><i style="background:var(--green)"></i><i style="background:var(--blue)"></i></div>
+  <div class="petals" data-s="320" style="left:1520px;top:90px"></div>
+  <div class="top"></div>
+  <div class="content" style="top:170px">
+    <p class="lab" style="margin-bottom:24px">De vuelta a la fotocopia</p>
+    <h1 style="font-size:128px;max-width:1380px">Conservar texto humano <span class="r">ayuda</span> a que la copia no siga empeorando</h1>
+    <p class="sm" style="margin-top:34px;max-width:1300px">Eso sugiere el experimento, dentro de sus límites. Gracias, quedamos atentos a sus preguntas.</p>
+    <div style="margin-top:46px"><span class="stamp" style="font-size:56px">Preguntas</span></div>
+  </div>
+  <div class="pg"></div><div class="grain"></div>
+</section>
+
+</div></div>
+<div class="hint" style="position:fixed;left:18px;bottom:10px;color:#F1E6CB;opacity:.35;font-size:12px">← → · ESPACIO</div>
+
+<script>
+/* === DATA (medias de 3 repeticiones; [media, mínimo, máximo]; claves: M0 y α) === */
+const D={"ppl":{"M0":[[30.4636,30.3998,30.50989]],"0.0":[[30.48669,30.46455,30.52029],[30.46131,30.31806,30.56708],[30.47471,30.42677,30.51026],[30.40356,30.38487,30.42464],[30.46504,30.40307,30.50717]],"0.5":[[31.61104,31.44692,31.76331],[31.86882,31.56817,32.03441],[31.86425,31.75257,32.05801],[31.89745,31.85356,31.95593],[31.89924,31.68863,32.18035]],"1.0":[[32.91708,32.8144,32.99705],[34.46062,34.32656,34.72758],[36.11282,35.74138,36.31606],[38.03443,37.73195,38.53037],[39.29549,39.00583,39.75501]]},"d2":{"M0":[[0.91328,0.91111,0.91686]],"0.0":[[0.90639,0.90383,0.90766],[0.90217,0.89885,0.90498],[0.91699,0.91149,0.92261],[0.91967,0.91149,0.93103],[0.90498,0.89847,0.91418]],"0.5":[[0.89808,0.89579,0.89962],[0.89617,0.87931,0.90843],[0.9,0.89004,0.91034],[0.90166,0.8908,0.91149],[0.89591,0.89004,0.9023]],"1.0":[[0.89438,0.88544,0.90575],[0.87791,0.87165,0.88736],[0.84789,0.84598,0.84981],[0.8341,0.82835,0.83716],[0.82503,0.81533,0.83487]]},"d3":{"M0":[[0.98955,0.98413,0.99325]],"0.0":[[0.98386,0.98135,0.9877],[0.98373,0.97857,0.98651],[0.98929,0.98532,0.99246],[0.9877,0.98333,0.99127],[0.98545,0.98373,0.9877]],"0.5":[[0.98386,0.98175,0.98492],[0.98651,0.98016,0.99087],[0.98558,0.98056,0.99087],[0.98492,0.98095,0.9881],[0.98386,0.97778,0.9877]],"1.0":[[0.98307,0.98016,0.98532],[0.97209,0.96627,0.97817],[0.95317,0.95079,0.95675],[0.95291,0.94841,0.95754],[0.94008,0.93571,0.94762]]},"rep4":{"M0":[[0.00302,0.00123,0.00617]],"0.0":[[0.00535,0.00288,0.007],[0.0059,0.00206,0.01235],[0.00302,0.00123,0.00453],[0.00466,0.00206,0.007],[0.00425,0.00329,0.00494]],"0.5":[[0.00439,0.00247,0.00658],[0.00316,0.00041,0.00658],[0.00425,0.00123,0.00658],[0.00521,0.00165,0.00741],[0.0048,0.00247,0.00905]],"1.0":[[0.00508,0.00247,0.00658],[0.01399,0.00741,0.02058],[0.02606,0.02058,0.02881],[0.0225,0.01975,0.02716],[0.03498,0.02757,0.03868]]},"sem":{"M0":[[0.88265,0.87518,0.89012]],"0.0":[[0.88633,0.87991,0.89493],[0.88979,0.88608,0.89421],[0.88865,0.88156,0.9009],[0.89454,0.88826,0.90593],[0.89026,0.88617,0.8974]],"0.5":[[0.8859,0.87388,0.89419],[0.89539,0.89087,0.89823],[0.88732,0.88152,0.89036],[0.89481,0.89406,0.8957],[0.89838,0.89252,0.90176]],"1.0":[[0.88636,0.87765,0.89386],[0.89182,0.8825,0.89795],[0.89942,0.89343,0.90631],[0.90168,0.89235,0.90659],[0.90285,0.90165,0.90387]]}};
+const C={ink:'#3A2516',grid:'#E5D6B0',blue:'#3F8BC4',orange:'#F09131',red:'#E5392A'};
+
+/* === CHARTS === */
+function lineChart(id,key,o){
+  const el=document.getElementById(id); if(!el) return;
+  const w=o.w,h=o.h,L=o.L,R=o.R,T=26,B=78, fs=o.fs||22;
+  const X=c=>L+(w-L-R)*c/5, Y=v=>T+(h-T-B)*(1-(v-o.y0)/(o.y1-o.y0));
+  const f=v=>v.toFixed(o.dec);
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="${o.aria}">`;
+  o.ticks.forEach(t=>{s+=`<path d="M${L} ${Y(t)}H${w-R}" stroke="${C.grid}" stroke-width="2"/><text x="${L-12}" y="${Y(t)+7}" text-anchor="end" font-size="${fs-2}" fill="${C.ink}">${f(t)}</text>`});
+  s+=`<path d="M${L} ${T-6}V${h-B}H${w-R+10}" stroke="${C.ink}" stroke-width="3" fill="none"/>`;
+  ['M0',1,2,3,4,5].forEach((l,i)=>{s+=`<text x="${X(i)}" y="${h-B+34}" text-anchor="middle" font-size="${fs}" fill="${C.ink}" ${i==0?'font-weight="700"':''}>${l}</text>`});
+  s+=`<text x="${(L+w-R)/2}" y="${h-14}" text-anchor="middle" font-size="${fs-3}" letter-spacing="4" fill="${C.ink}">CICLO</text>`;
+  const m0=D[key].M0[0];
+  const ser=[['0.0','α = 0',C.blue],['0.5','α = 0.5',C.orange],['1.0','α = 1',C.red]];
+  const labels=[];
+  ser.forEach(([k,name,col])=>{
+    const pts=[m0].concat(D[key][k]);
+    s+=`<path d="${pts.map((p,i)=>(i?'L':'M')+X(i)+' '+Y(p[0])).join('')}" stroke="${col}" stroke-width="${o.lw||6}" fill="none" stroke-linejoin="round"/>`;
+    pts.forEach((p,i)=>{ if(i>0){ s+=`<path d="M${X(i)} ${Y(p[1])}V${Y(p[2])}M${X(i)-7} ${Y(p[1])}H${X(i)+7}M${X(i)-7} ${Y(p[2])}H${X(i)+7}" stroke="${col}" stroke-width="2.5" fill="none"/>`; }
+      s+=`<circle cx="${X(i)}" cy="${Y(p[0])}" r="${i?(o.r||6):0}" fill="${col}"/>`});
+    labels.push({y:Y(pts[5][0]),name,col});
+  });
+  s+=`<circle cx="${X(0)}" cy="${Y(m0[0])}" r="${(o.r||6)+4}" fill="${C.ink}"/>`;
+  labels.sort((a,b)=>a.y-b.y);
+  const gap=fs+8; for(let i=1;i<labels.length;i++){ if(labels[i].y-labels[i-1].y<gap) labels[i].y=labels[i-1].y+gap; }
+  labels.forEach(l=>{s+=`<text x="${X(5)+16}" y="${l.y+7}" font-size="${fs+(o.lab||0)}" font-weight="700" fill="${l.col}">${l.name}</text>`});
+  el.innerHTML=s+'</svg>';
+}
+lineChart('chPpl','ppl',{w:1128,h:640,L:96,R:150,y0:29,y1:41,ticks:[30,32,34,36,38,40],dec:0,aria:'Perplejidad por ciclo y proporción sintética',fs:24,lab:2});
+lineChart('chD2','d2',{w:548,h:540,L:86,R:104,y0:0.80,y1:0.93,ticks:[0.82,0.86,0.90],dec:2,aria:'Distinct-2 por ciclo',fs:20,lw:5,r:5});
+lineChart('chD3','d3',{w:548,h:540,L:86,R:104,y0:0.93,y1:1.0,ticks:[0.94,0.96,0.98],dec:2,aria:'Distinct-3 por ciclo',fs:20,lw:5,r:5});
+lineChart('chRep','rep4',{w:548,h:540,L:96,R:104,y0:0,y1:0.045,ticks:[0,0.01,0.02,0.03,0.04],dec:2,aria:'Repetición de 4-gramas por ciclo',fs:20,lw:5,r:5});
+lineChart('chSem','sem',{w:1128,h:640,L:96,R:150,y0:0.87,y1:0.91,ticks:[0.87,0.88,0.89,0.90,0.91],dec:2,aria:'Dispersión semántica por ciclo',fs:24,lab:2});
+
+/* === DECORATIONS === */
+document.querySelectorAll('[data-star]').forEach(el=>{
+  const pts=[];for(let i=0;i<64;i++){const a=i*Math.PI/32,r=i%2?44:50;pts.push((50+r*Math.cos(a)).toFixed(2)+'% '+(50+r*Math.sin(a)).toFixed(2)+'%')}
+  el.style.clipPath='polygon('+pts.join(',')+')';
+});
+document.querySelectorAll('.petals').forEach(el=>{
+  const S=+el.dataset.s||300; el.style.width=el.style.height=S+'px';
+  [[0,.02,'--red'],[.34,0,'--pink'],[.08,.34,'--yellow'],[.4,.36,'--blue'],[.2,.18,'--green']].forEach(([x,y,c])=>{
+    const i=document.createElement('i'); i.style.cssText=`left:${x*S}px;top:${y*S}px;width:${S*.6}px;height:${S*.6}px;background:var(${c})`; el.appendChild(i)});
+});
+/* hoja que se degrada */
+(function(){
+  const box=document.getElementById('sheets'); if(!box) return;
+  const cfg=[['Original',0,1],['Copia 1',1.2,.92],['Copia 2',2.8,.8],['Copia 5',5.5,.62]];
+  const seed=[.2,.7,.4,.9,.1,.6,.3,.8,.5,.35,.75,.15];
+  cfg.forEach(([name,blur,op],k)=>{
+    const wrap=document.createElement('div');wrap.style.cssText='text-align:center';
+    let lines='';for(let i=0;i<11;i++){const wd=60+Math.round(seed[(i+k*3)%12]*36);lines+=`<i style="display:block;height:${i==0?18:12}px;width:${i==0?'48':wd}%;background:var(--ink);margin:${i==0?'0 0 26px':'0 0 16px'}"></i>`}
+    wrap.innerHTML=`<div style="width:330px;height:430px;border:1.5px solid var(--ink);background:#FBF3DC;padding:38px 32px;box-sizing:border-box;text-align:left;filter:blur(${blur}px);opacity:${op}">${lines}</div><div class="lab" style="margin-top:20px;font-size:21px">${name}</div>`;
+    box.appendChild(wrap);
+    if(k<3){const a=document.createElement('div');a.className='mono';a.style.cssText='font-size:52px;padding-bottom:56px';a.textContent='→';box.appendChild(a)}
+  });
+})();
+/* tarjetas alfa */
+(function(){
+  const box=document.getElementById('alphaCards'); if(!box) return;
+  [['α = 0','Todo humano · el control',0,'var(--blue)'],['α = 0.5','Mitad y mitad',5,'var(--orange)'],['α = 1','Todo sintético',10,'var(--red)']].forEach(([a,t,n,col])=>{
+    let tiles='';for(let i=0;i<10;i++)tiles+=`<i style="background:${i<10-n?'var(--paper-dk)':col}"></i>`;
+    const c=document.createElement('div');c.className='card';c.innerHTML=`<div class="in" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 24px"><div><div class="nm" style="font-size:60px">${a}</div><div class="ds" style="font-size:25px;margin-top:2px">${t}</div></div><div class="tiles">${tiles}</div></div>`;
+    box.appendChild(c)});
+  const note=document.createElement('div');note.className='note';note.style.cssText='font-size:19px';note.innerHTML='<span style="display:inline-block;width:18px;height:18px;background:var(--paper-dk);border:1.5px solid var(--ink);vertical-align:middle"></span> claro = humano &nbsp; <span style="display:inline-block;width:18px;height:18px;background:var(--red);border:1.5px solid var(--ink);vertical-align:middle"></span> color = sintético';
+  box.appendChild(note);
+})();
+/* rejilla 48 */
+(function(){
+  const g=document.getElementById('grid48'); if(!g) return;
+  const rows=[['M0','var(--ink)',[0]],['α = 0','var(--blue)',[1,2,3,4,5]],['α = 0.5','var(--orange)',[1,2,3,4,5]],['α = 1','var(--red)',[1,2,3,4,5]]];
+  let h='<div style="display:grid;grid-template-columns:130px repeat(5,1fr);gap:10px 12px;align-items:center"><div></div>';
+  for(let c=1;c<=5;c++)h+=`<div class="mono" style="font-weight:700;font-size:21px;text-align:center">CICLO ${c}</div>`;
+  rows.forEach(([n,col,cs])=>{h+=`<div class="mono" style="font-weight:700;font-size:24px">${n}</div>`;
+    for(let c=1;c<=5;c++){ if(n==='M0'&&c>1){h+='<div></div>';continue}
+      h+='<div style="display:flex;gap:6px;justify-content:center">'+[0,1,2].map(()=>`<i style="display:block;width:44px;height:44px;background:${col};border:1.5px solid var(--ink)"></i>`).join('')+'</div>'}});
+  h+='</div><div class="note" style="margin-top:14px;font-size:19px">Cada cuadro es un entrenamiento · 3 por celda = 3 repeticiones</div>';
+  g.innerHTML=h;
+})();
+/* opciones (perplejidad) */
+(function(){
+  const bar=(label,w,col)=>`<div style="display:flex;align-items:center;gap:14px;margin:7px 0"><span class="mono" style="width:150px;font-size:21px">${label}</span><i style="display:block;height:26px;width:${w}%;background:${col};border:1.5px solid var(--ink)"></i></div>`;
+  const low=document.getElementById('optLow'),high=document.getElementById('optHigh'); if(!low) return;
+  low.innerHTML=[['Ciudad',74,'var(--green)'],['capital',12,'var(--paper-dk)'],['sede',7,'var(--paper-dk)'],['puerto',4,'var(--paper-dk)'],['río',3,'var(--paper-dk)']].map(a=>bar(...a)).join('');
+  const names=['Ciudad','capital','sede','puerto','río','estado','centro','zona','plaza','villa'];
+  high.innerHTML=names.map((n,i)=>bar(n,[22,20,19,18,17,17,16,15,15,14][i],'var(--red)')).join('');
+})();
+/* pares distintos */
+(function(){
+  const g=document.getElementById('pairs'); if(!g) return;
+  const rep=[3,11];let h='';for(let i=0;i<20;i++)h+=`<i style="display:block;height:58px;border:1.5px solid var(--ink);background:${rep.includes(i)?'transparent':'var(--blue)'}"></i>`;
+  g.innerHTML=h;
+})();
+/* dardos */
+function dart(id,pts){
+  const el=document.getElementById(id); if(!el) return;
+  let s='<svg viewBox="0 0 400 400" width="380" height="380">';
+  [190,140,90,40].forEach((r,i)=>{s+=`<circle cx="200" cy="200" r="${r}" fill="${i%2?'#E5D6B0':'#F1E6CB'}" stroke="#3A2516" stroke-width="2"/>`});
+  pts.forEach(([x,y],i)=>{s+=`<circle cx="${x}" cy="${y}" r="11" fill="${['#E5392A','#3F8BC4','#F09131','#3D9F47','#E54489'][i%5]}" stroke="#3A2516" stroke-width="2"/>`});
+  el.innerHTML=s+'</svg>';
+}
+dart('dartHigh',[[90,110],[300,80],[330,250],[150,320],[220,200],[60,260],[280,340],[120,190],[250,130],[200,60]]);
+dart('dartLow',[[190,192],[210,205],[200,180],[215,190],[185,210],[205,215],[195,200],[222,200],[180,195],[200,225]]);
+
+/* α sin mayúsculas */
+(function(){const w=document.createTreeWalker(document.querySelector('.deck-stage'),NodeFilter.SHOW_TEXT);const nodes=[];let n;
+ while(n=w.nextNode()){if(n.nodeValue.includes('α')&&!n.parentElement.closest('svg'))nodes.push(n)}
+ nodes.forEach(t=>{const f=document.createDocumentFragment();const parts=t.nodeValue.split('α');parts.forEach((part,i)=>{f.appendChild(document.createTextNode(part));if(i<parts.length-1){const sp=document.createElement('span');sp.className='al';sp.textContent='α';f.appendChild(sp)}});t.parentNode.replaceChild(f,t)})})();
+/* === DECK ENGINE === */
+const slides=[...document.querySelectorAll('.slide')], N=slides.length; let cur=0;
+slides.forEach((s,i)=>{
+  const top=s.querySelector('.top'); if(top) top.innerHTML=`<span>${s.dataset.tag}</span><span class="who">${s.dataset.who}</span>`;
+  const pg=s.querySelector('.pg'); if(pg) pg.textContent=String(i+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');
+});
+function go(n,fromHash){
+  cur=Math.max(0,Math.min(N-1,n));
+  slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
+  if(!fromHash){try{if(location.hash!=='#s'+(cur+1))location.hash='s'+(cur+1)}catch(e){}}
+}
+function fromHash(){const m=/^#s(\d+)$/.exec(location.hash);return m?+m[1]-1:0}
+window.addEventListener('hashchange',()=>go(fromHash(),true));
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(N-1);
+});
+const vp=document.querySelector('.deck-viewport');
+vp.addEventListener('click',e=>{go(e.clientX<window.innerWidth*.25?cur-1:cur+1)});
+let tx=null;vp.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+vp.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(cur+(dx<0?1:-1));tx=null});
+const stage=document.getElementById('stage');
+function fit(){const f=Math.min(window.innerWidth/1920,window.innerHeight/1080);const x=(window.innerWidth-1920*f)/2,y=(window.innerHeight-1080*f)/2;stage.style.transform=`translate(${x}px,${y}px) scale(${f})`}
+fit();window.addEventListener('resize',fit);
+go(fromHash(),true);
+</script>
+</body></html>
