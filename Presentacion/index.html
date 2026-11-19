@@ -1,4 +1,6 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exposición IMAC</title>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exposición IMAC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600;700&family=Big+Shoulders+Display:wght@700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@700&display=swap">
@@ -81,9 +83,22 @@ svg text{font-family:var(--mono)}
 .ledger td.v{font:400 31px/1.3 var(--body)}
 .ledger td.m{font:700 30px/1 var(--mono)}
 .ledger td.hl{background:rgba(229,57,42,.14)}
+
+/* controles */
+.ctl{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:200;display:flex;align-items:stretch;gap:0;background:var(--paper);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);font-family:var(--mono);transition:opacity .35s,transform .35s}
+.ctl.off{opacity:0;transform:translateX(-50%) translateY(14px);pointer-events:none}
+.ctl button{appearance:none;background:transparent;border:0;border-right:2px solid var(--ink);color:var(--ink);width:46px;height:42px;font:700 19px/1 var(--mono);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.ctl button:last-child{border-right:0}
+.ctl button:hover{background:var(--ink);color:var(--paper)}
+.ctl button:focus-visible{outline:3px solid #E5392A;outline-offset:-5px}
+.ctl button:disabled{opacity:.3;cursor:default;background:transparent;color:var(--ink)}
+.ctl .cnt{display:flex;align-items:center;padding:0 14px;border-right:2px solid var(--ink);font:700 15px/1 var(--mono);letter-spacing:.08em;min-width:84px;justify-content:center}
+.ctl svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:square}
+@media(max-width:560px){.ctl button{width:40px;height:38px}.ctl .cnt{min-width:70px;padding:0 8px}}
 </style>
 
-</head><body><div class="deck-viewport"><div class="deck-stage" id="stage">
+</head><body>
+<div class="deck-viewport"><div class="deck-stage" id="stage">
 
 <!-- ========== 01 PORTADA ========== -->
 <section class="slide" data-tag="Portada" data-who="Carlos">
@@ -478,6 +493,14 @@ svg text{font-family:var(--mono)}
 </section>
 
 </div></div>
+<div class="ctl" id="ctl" role="toolbar" aria-label="Controles de la presentación">
+  <button id="bFirst" title="Primera (Inicio)" aria-label="Primera diapositiva"><svg viewBox="0 0 24 24"><path d="M6 5v14M18 5l-8 7 8 7"/></svg></button>
+  <button id="bPrev" title="Anterior (←)" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <div class="cnt" id="cnt" aria-live="polite">01 / 19</div>
+  <button id="bNext" title="Siguiente (→)" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button id="bLast" title="Última (Fin)" aria-label="Última diapositiva"><svg viewBox="0 0 24 24"><path d="M18 5v14M6 5l8 7-8 7"/></svg></button>
+  <button id="bFs" title="Pantalla completa (F)" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" id="icFs"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
 <div class="hint" style="position:fixed;left:18px;bottom:10px;color:#F1E6CB;opacity:.35;font-size:12px">← → · ESPACIO</div>
 
 <script>
@@ -618,5 +641,23 @@ const stage=document.getElementById('stage');
 function fit(){const f=Math.min(window.innerWidth/1920,window.innerHeight/1080);const x=(window.innerWidth-1920*f)/2,y=(window.innerHeight-1080*f)/2;stage.style.transform=`translate(${x}px,${y}px) scale(${f})`}
 fit();window.addEventListener('resize',fit);
 go(fromHash(),true);
+/* controles */
+const ctl=document.getElementById('ctl'),cnt=document.getElementById('cnt');
+const bFirst=document.getElementById('bFirst'),bPrev=document.getElementById('bPrev'),bNext=document.getElementById('bNext'),bLast=document.getElementById('bLast'),bFs=document.getElementById('bFs');
+function sync(){cnt.textContent=String(cur+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');bFirst.disabled=bPrev.disabled=cur===0;bNext.disabled=bLast.disabled=cur===N-1}
+const _go=go;go=function(n,h){_go(n,h);sync()};
+bFirst.onclick=()=>go(0);bPrev.onclick=()=>go(cur-1);bNext.onclick=()=>go(cur+1);bLast.onclick=()=>go(N-1);
+['click','touchstart','touchend'].forEach(t=>ctl.addEventListener(t,e=>e.stopPropagation(),{passive:true}));
+function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement}
+function toggleFs(){try{if(fsEl()){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}else{const r=document.documentElement;(r.requestFullscreen||r.webkitRequestFullscreen).call(r)}}catch(e){}}
+bFs.onclick=toggleFs;
+if(!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen))bFs.style.display='none';
+function fsIcon(){document.getElementById('icFs').innerHTML=fsEl()?'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>':'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>';bFs.title=fsEl()?'Salir de pantalla completa (F / Esc)':'Pantalla completa (F)';fit()}
+document.addEventListener('fullscreenchange',fsIcon);document.addEventListener('webkitfullscreenchange',fsIcon);
+document.addEventListener('keydown',e=>{if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();toggleFs()}});
+let hideT;function showCtl(){ctl.classList.remove('off');clearTimeout(hideT);hideT=setTimeout(()=>{if(!ctl.matches(':hover')&&!ctl.contains(document.activeElement))ctl.classList.add('off')},3200)}
+['mousemove','touchstart','keydown','click'].forEach(t=>document.addEventListener(t,showCtl,{passive:true}));showCtl();
+sync();
 </script>
+
 </body></html>
